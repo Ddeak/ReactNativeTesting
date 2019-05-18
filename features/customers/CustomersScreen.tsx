@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { theme } from "../styles";
+import { theme } from "../../styles";
 
-import { SearchBar } from "./SearchBar";
+import { SearchBar } from "../ui/SearchBar";
 
 interface Props {}
 

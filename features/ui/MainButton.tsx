@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Button } from "react-native";
 
-import { theme } from "../styles";
+import { theme } from "../../styles";
 
 interface Props {
   onPress: () => void;

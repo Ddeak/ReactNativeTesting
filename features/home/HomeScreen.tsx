@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { theme } from "../styles";
 
 import { NavigationScreenProp } from "react-navigation";
 
-import { MainButton } from "./MainButton";
+import { theme } from "../../styles";
+import { MainButton } from "../ui/MainButton";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
