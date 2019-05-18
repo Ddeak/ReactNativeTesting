@@ -2,6 +2,7 @@ export const theme = {
   FONT_SIZE_SMALL: 12,
   FONT_SIZE_MEDIUM: 14,
   FONT_SIZE_LARGE: 16,
-  PRIMARY_COLOR: "rgb(30, 147, 242)",
-  SECONDARY_COLOR: "rgb(238, 167, 2)"
+  PRIMARY_COLOR: "rgb(100, 10, 181)",
+  SECONDARY_COLOR: "rgb(252, 249, 255)",
+  SCREEN_BACKGROUND: "rgb(56, 56, 56)"
 };

@@ -1,11 +1,32 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { theme } from "../styles";
 
-export class HomeScreen extends React.Component {
+import { NavigationScreenProp } from "react-navigation";
+
+import { MainButton } from "./MainButton";
+
+interface Props {
+  navigation: NavigationScreenProp<any, any>;
+}
+
+export class HomeScreen extends React.Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Home Screen</Text>
+        <Text style={styles.text}>Odin's Hall</Text>
+        <MainButton
+          text="Appointments"
+          onPress={() => this.props.navigation.navigate("Appointments")}
+        />
+        <MainButton
+          text="Customers"
+          onPress={() => this.props.navigation.navigate("Customers")}
+        />
+        <MainButton
+          text="Pets"
+          onPress={() => this.props.navigation.navigate("Pets")}
+        />
       </View>
     );
   }
@@ -16,6 +37,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F5FCFF"
+    backgroundColor: theme.SCREEN_BACKGROUND
+  },
+  text: {
+    color: theme.SECONDARY_COLOR
   }
 });

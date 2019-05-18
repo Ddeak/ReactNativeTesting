@@ -8,11 +8,17 @@
 
 import React from "react";
 import { createStackNavigator, createAppContainer } from "react-navigation";
-import { HomeScreen } from "./features";
+import { HomeScreen, CustomerScreen } from "./features";
 
-const AppNavigator = createStackNavigator({
-  Home: HomeScreen
-});
+const AppNavigator = createStackNavigator(
+  {
+    Home: HomeScreen,
+    Customers: CustomerScreen
+  },
+  {
+    initialRouteName: "Home"
+  }
+);
 
 const AppContainer = createAppContainer(AppNavigator);
 
