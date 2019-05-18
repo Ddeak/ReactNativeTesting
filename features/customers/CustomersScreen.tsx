@@ -1,25 +1,19 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { theme } from "../../styles";
+import React, { useEffect, useState } from "react";
 
-import { SearchBar } from "../ui/SearchBar";
+import { getCustomers } from "./api";
+import { CustomersList } from "./CustomersList";
 
-interface Props {}
+export const CustomerScreen = () => {
+  const [customers, setCustomers] = useState([]);
 
-export const CustomerScreen = (props: Props) => {
-  return (
-    <View style={styles.container}>
-      <SearchBar />
-      <Text>Customers Screen</Text>
-    </View>
-  );
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      const data = await getCustomers();
+      setCustomers(data);
+    };
+
+    fetchCustomers();
+  }, []);
+
+  return <CustomersList customers={customers} />;
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "center",
-    backgroundColor: theme.SCREEN_BACKGROUND
-  }
-});

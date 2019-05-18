@@ -595,6 +595,11 @@
     "@babel/helper-regex" "^7.4.4"
     regexpu-core "^4.5.4"
 
+"@babel/preset-stage-3@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@babel/preset-stage-3/-/preset-stage-3-7.0.0.tgz#2db613ea336735c524cb56d87b8bc092f97f7634"
+  integrity sha512-/zrA33dt21H6wV0nqXUIb7miaodavqY9DFEbuBjH9TtcPvhfVgV0klRPoO+Pdm0eUSXkXoponS+1I2HweyTrLQ==
+
 "@babel/register@^7.0.0":
   version "7.4.4"
   resolved "https://registry.yarnpkg.com/@babel/register/-/register-7.4.4.tgz#370a68ba36f08f015a8b35d4864176c6b65d7a23"
