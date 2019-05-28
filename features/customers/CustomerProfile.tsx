@@ -21,7 +21,11 @@ export const CustomerProfile = withNavigation((props: PropType) => {
         );
     }
 
-    return <ActivityIndicator animating={true} />;
+    return (
+        <View style={styles.container}>
+            <ActivityIndicator animating={true} />
+        </View>
+    );
 });
 
 const styles = StyleSheet.create({
