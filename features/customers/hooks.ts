@@ -21,6 +21,8 @@ export const useCustomers = (): Array<Customer> => {
 export const useCustomer = (id: string): Customer | undefined => {
     const [customer, setCustomer] = useState<Customer>();
 
+    if (!id) return;
+
     useEffect(() => {
         const fetchCustomer = async () => {
             const data = await getCustomerById(id);
