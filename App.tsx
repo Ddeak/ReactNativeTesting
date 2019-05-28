@@ -8,52 +8,30 @@
 
 import React from "react";
 import { createStackNavigator, createAppContainer } from "react-navigation";
-import { HomeScreen, CustomerScreen } from "./features";
+import { Provider } from "react-native-paper";
+
+import { HomeScreen, CustomersList, CustomerProfile } from "./features";
+import { materialTheme } from "./styles";
 
 const AppNavigator = createStackNavigator(
-  {
-    Home: HomeScreen,
-    Customers: CustomerScreen
-  },
-  {
-    initialRouteName: "Home"
-  }
+    {
+        Home: HomeScreen,
+        Customers: CustomersList,
+        CustomerProfile: CustomerProfile,
+    },
+    {
+        initialRouteName: "Home",
+    }
 );
 
 const AppContainer = createAppContainer(AppNavigator);
 
 export default class App extends React.Component {
-  render() {
-    return <AppContainer />;
-  }
+    render() {
+        return (
+            <Provider theme={materialTheme}>
+                <AppContainer />
+            </Provider>
+        );
+    }
 }
-// export default class App extends Component<Props> {
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <Text style={styles.welcome}>Welcome to React Native!</Text>
-//         <Text style={styles.instructions}>To get started, edit App.js</Text>
-//         <Text style={styles.instructions}>{instructions}</Text>
-//       </View>
-//     );
-//   }
-// }
-//
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: '#F5FCFF',
-//   },
-//   welcome: {
-//     fontSize: 20,
-//     textAlign: 'center',
-//     margin: 10,
-//   },
-//   instructions: {
-//     textAlign: 'center',
-//     color: '#333333',
-//     marginBottom: 5,
-//   },
-// });

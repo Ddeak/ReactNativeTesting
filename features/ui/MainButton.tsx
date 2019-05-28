@@ -1,37 +1,37 @@
 import React from "react";
-import { View, StyleSheet, Button } from "react-native";
+import { View, StyleSheet } from "react-native";
+import { Button } from "react-native-paper";
 
 import { theme } from "../../styles";
 
 interface Props {
-  onPress: () => void;
-  text: string;
-  accessibilityLabel?: string;
+    onPress: () => void;
+    text: string;
+    accessibilityLabel?: string;
 }
 
 export const MainButton = (props: Props) => {
-  const { accessibilityLabel, text, onPress } = props;
+    const { accessibilityLabel, text, onPress } = props;
 
-  const onButtonPress = () => {
-    if (onPress) onPress();
-  };
+    const onButtonPress = () => {
+        if (onPress) onPress();
+    };
 
-  return (
-    <View style={styles.container}>
-      <Button
-        onPress={onButtonPress}
-        title={text}
-        color={theme.SECONDARY_COLOR}
-        accessibilityLabel={accessibilityLabel || "Not Set"}
-      />
-    </View>
-  );
+    return (
+        <Button
+            mode="contained"
+            style={styles.button}
+            onPress={onButtonPress}
+            accessibilityLabel={accessibilityLabel || "Not Set"}
+        >
+            {text}
+        </Button>
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: "95%",
-    margin: 20,
-    backgroundColor: theme.PRIMARY_COLOR
-  }
+    button: {
+        width: "95%",
+        margin: 20,
+    },
 });
