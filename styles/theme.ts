@@ -6,6 +6,7 @@ export const theme = {
     FONT_SIZE_LARGE: 16,
     PRIMARY_COLOR: "rgb(100, 10, 181)",
     SECONDARY_COLOR: "rgb(252, 249, 255)",
+    DELETE_COLOR: "rgb(237, 56, 132)",
     SCREEN_BACKGROUND: "rgb(56, 56, 56)",
 };
 

@@ -8,7 +8,7 @@ import { LoadingScreen } from "../ui/LoadingScreen";
 import { MainButton } from "../ui/MainButton";
 
 import { useCustomer } from "./hooks";
-import { editCustomer, createCustomer } from "./api";
+import { editCustomer, createCustomer, deleteCustomer } from "./api";
 import { Actions } from "./reducer";
 
 interface PropType {
@@ -39,6 +39,19 @@ export const CustomerProfile = withNavigation(({ navigation }: PropType) => {
         }
     };
 
+    const onDelete = async () => {
+        dispatch(Actions.setLoading(true));
+        try {
+            const data = await deleteCustomer(_id);
+            if (onDone) onDone();
+            if (data.method === "Success") navigation.pop();
+            dispatch(Actions.setLoading(false));
+        } catch (err) {
+            console.log("Something went wrong deleting a customer: ");
+            dispatch(Actions.setLoading(false));
+        }
+    };
+
     return (
         <View style={styles.container}>
             <TextInput
@@ -59,11 +72,23 @@ export const CustomerProfile = withNavigation(({ navigation }: PropType) => {
                 value={phoneNumber}
                 onChangeText={text => dispatch(Actions.setPhoneNumber(text))}
             />
-            <MainButton
-                disabled={loading}
-                text={_id ? "Edit" : "Create"}
-                onPress={() => onSubmit()}
-            />
+            <View style={styles.buttonRow}>
+                {_id && (
+                    <MainButton
+                        icon="delete"
+                        style={styles.deleteButton}
+                        disabled={loading}
+                        text={"Delete"}
+                        onPress={onDelete}
+                    />
+                )}
+                <MainButton
+                    icon="create"
+                    disabled={loading}
+                    text={_id ? "Edit" : "Create"}
+                    onPress={onSubmit}
+                />
+            </View>
         </View>
     );
 });
@@ -81,5 +106,13 @@ const styles = StyleSheet.create({
         marginTop: 10,
         height: 60,
         width: "90%",
+    },
+    buttonRow: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "flex-end",
+    },
+    deleteButton: {
+        backgroundColor: theme.DELETE_COLOR,
     },
 });
