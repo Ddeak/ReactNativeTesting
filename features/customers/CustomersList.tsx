@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     View,
     StyleSheet,
@@ -34,9 +34,15 @@ const renderCustomerRow = ({ item }: RowProps, onPress: Function) => {
 };
 
 export const CustomersList = withNavigation(({ navigation }: ListProps) => {
-    const customers = useCustomers();
+    const [refresh, setRefresh] = useState(true);
+    const customers = useCustomers(refresh);
+
+    const onDone = () => {
+        setRefresh(!refresh);
+    };
+
     const onRowPress = (id: string) => {
-        navigation.push("CustomerProfile", { id });
+        navigation.push("CustomerProfile", { id, onDone });
     };
 
     return (
