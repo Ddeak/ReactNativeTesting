@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { withNavigation, NavigationScreenProp } from "react-navigation";
 import { ActivityIndicator } from "react-native-paper";
 
 import { theme } from "../../styles";
+import { LoadingScreen } from "../ui/LoadingScreen";
 import { useCustomer } from "./hooks";
 
 interface PropType {
@@ -21,11 +22,7 @@ export const CustomerProfile = withNavigation((props: PropType) => {
         );
     }
 
-    return (
-        <View style={styles.container}>
-            <ActivityIndicator animating={true} />
-        </View>
-    );
+    return <LoadingScreen />;
 });
 
 const styles = StyleSheet.create({
