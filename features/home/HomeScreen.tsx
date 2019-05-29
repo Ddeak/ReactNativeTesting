@@ -6,12 +6,12 @@ import { NavigationScreenProp } from "react-navigation";
 import { theme } from "../../styles";
 import { MainButton } from "../ui/MainButton";
 
-interface Props {
+interface IProps {
     navigation: NavigationScreenProp<any, any>;
 }
 
-export class HomeScreen extends React.Component<Props> {
-    render() {
+export class HomeScreen extends React.Component<IProps> {
+    public render() {
         return (
             <View style={styles.container}>
                 <Text style={styles.text}>Odin's Hall</Text>

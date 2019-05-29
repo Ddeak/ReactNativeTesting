@@ -11,11 +11,11 @@ import { useCustomer } from "./hooks";
 import { editCustomer, createCustomer, deleteCustomer } from "./api";
 import { Actions } from "./reducer";
 
-interface PropType {
+interface IPropType {
     navigation: NavigationScreenProp<any, any>;
 }
 
-export const CustomerProfile = withNavigation(({ navigation }: PropType) => {
+export const CustomerProfile = withNavigation(({ navigation }: IPropType) => {
     const _id = navigation.getParam("id");
     const onDone = navigation.getParam("onDone");
     const [state, dispatch] = useCustomer(_id);

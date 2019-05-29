@@ -26,7 +26,7 @@ const AppNavigator = createDrawerNavigator(
 const AppContainer = createAppContainer(AppNavigator);
 
 export default class App extends React.Component {
-    render() {
+    public render() {
         return (
             <Provider theme={materialTheme}>
                 <AppContainer />

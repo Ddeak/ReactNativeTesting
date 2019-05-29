@@ -11,19 +11,22 @@ import { withNavigation, NavigationScreenProp } from "react-navigation";
 import { theme } from "../../styles";
 
 import { SearchBar } from "../ui/SearchBar";
-import { Customer } from "./types";
+import { ICustomer } from "./types";
 import { useCustomers } from "./hooks";
 
-interface ListProps {
-    customers: Array<Customer>;
+interface IListProps {
+    customers: ICustomer[];
     navigation: NavigationScreenProp<any, any>;
 }
 
-interface RowProps {
-    item: Customer;
+interface IRowProps {
+    item: ICustomer;
 }
 
-const renderCustomerRow = ({ item }: RowProps, onPress: Function) => {
+const renderCustomerRow = (
+    { item }: IRowProps,
+    onPress: (id: string | undefined) => void
+) => {
     return (
         <TouchableOpacity style={styles.row} onPress={() => onPress(item._id)}>
             <Text>
@@ -33,7 +36,7 @@ const renderCustomerRow = ({ item }: RowProps, onPress: Function) => {
     );
 };
 
-export const CustomersList = withNavigation(({ navigation }: ListProps) => {
+export const CustomersList = withNavigation(({ navigation }: IListProps) => {
     const [refresh, setRefresh] = useState(true);
     const customers = useCustomers(refresh);
 
@@ -41,7 +44,7 @@ export const CustomersList = withNavigation(({ navigation }: ListProps) => {
         setRefresh(!refresh);
     };
 
-    const onRowPress = (id: string) => {
+    const onRowPress = (id: string | undefined) => {
         navigation.push("CustomerProfile", { id, onDone });
     };
 

@@ -2,16 +2,16 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 
-interface Props {
+interface IProps {
     onPress: () => void;
     text: string;
     accessibilityLabel?: string;
     disabled?: boolean;
-    style?: Object;
+    style?: object;
     icon?: string;
 }
 
-export const MainButton = (props: Props) => {
+export const MainButton = (props: IProps) => {
     const { accessibilityLabel, text, onPress } = props;
 
     const onButtonPress = () => {

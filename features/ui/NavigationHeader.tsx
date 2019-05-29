@@ -3,11 +3,11 @@ import { Appbar } from "react-native-paper";
 import { StyleSheet } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
-interface PropTypes {
+interface IPropTypes {
     navigation: NavigationScreenProp<any, any>;
 }
 
-export const NavigationHeader = ({ navigation }: PropTypes) => {
+export const NavigationHeader = ({ navigation }: IPropTypes) => {
     const index = navigation.state.index;
     return (
         <Appbar style={styles.appBar}>

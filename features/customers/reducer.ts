@@ -1,14 +1,18 @@
-export type StateType = {
+export interface IStateType {
     firstName: string;
     surname: string;
     phoneNumber: string;
     loading: boolean;
-};
+}
 
-type ActionType = {
+interface IActionType {
     type: string;
     payload: any;
-};
+}
+
+interface IActionTypes {
+    [key: string]: string;
+}
 
 export const initialReducerState = {
     firstName: "",
@@ -17,11 +21,7 @@ export const initialReducerState = {
     loading: false,
 };
 
-type ActionTypes = {
-    [key: string]: string;
-};
-
-export const ActionTypes: ActionTypes = {
+export const ActionTypes: IActionTypes = {
     UpdateFirstName: "@Customer/UpdateFirstName",
     UpdateSurname: "@Customer/UpdateSurname",
     UpdatePhoneNumber: "@Customer/UpdatePhoneNumber",
@@ -46,13 +46,13 @@ export const Actions = {
         type: ActionTypes.UpdateLoading,
         payload: loading,
     }),
-    setState: (state: StateType) => ({
+    setState: (state: IStateType) => ({
         type: ActionTypes.SetState,
         payload: state,
     }),
 };
 
-export const reducer = (state: StateType, action: ActionType) => {
+export const reducer = (state: IStateType, action: IActionType) => {
     switch (action.type) {
         case ActionTypes.UpdateFirstName:
             return { ...state, firstName: action.payload };

@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useReducer } from "react";
 
 import { getCustomers, getCustomerById } from "./api";
-import { Customer } from "./types";
-import { reducer, Actions, initialReducerState, StateType } from "./reducer";
+import { ICustomer } from "./types";
+import { reducer, Actions, initialReducerState } from "./reducer";
 
-export const useCustomers = (refresh: boolean): Array<Customer> => {
+export const useCustomers = (refresh: boolean): ICustomer[] => {
     const [customers, setCustomers] = useState([]);
 
     useEffect(() => {
