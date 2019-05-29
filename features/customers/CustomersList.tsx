@@ -36,7 +36,7 @@ const renderCustomerRow = ({ item }: RowProps, onPress: Function) => {
 export const CustomersList = withNavigation(({ navigation }: ListProps) => {
     const customers = useCustomers();
     const onRowPress = (id: string) => {
-        navigation.navigate("CustomerProfile", { id });
+        navigation.push("CustomerProfile", { id });
     };
 
     return (

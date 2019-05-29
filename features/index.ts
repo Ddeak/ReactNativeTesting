@@ -1,2 +1,2 @@
 export { HomeScreen } from "./home/HomeScreen";
-export { CustomersList, CustomerProfile } from "./customers";
+export { CustomersList, CustomerProfile, CustomerStack } from "./customers";

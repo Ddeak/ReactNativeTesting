@@ -7,17 +7,16 @@
  */
 
 import React from "react";
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import { createDrawerNavigator, createAppContainer } from "react-navigation";
 import { Provider } from "react-native-paper";
 
-import { HomeScreen, CustomersList, CustomerProfile } from "./features";
+import { HomeScreen, CustomerStack } from "./features";
 import { materialTheme } from "./styles";
 
-const AppNavigator = createStackNavigator(
+const AppNavigator = createDrawerNavigator(
     {
         Home: HomeScreen,
-        Customers: CustomersList,
-        CustomerProfile: CustomerProfile,
+        Customers: CustomerStack,
     },
     {
         initialRouteName: "Home",

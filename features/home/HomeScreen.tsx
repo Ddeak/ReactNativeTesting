@@ -17,9 +17,7 @@ export class HomeScreen extends React.Component<Props> {
                 <Text style={styles.text}>Odin's Hall</Text>
                 <MainButton
                     text="Appointments"
-                    onPress={() =>
-                        this.props.navigation.navigate("Appointments")
-                    }
+                    onPress={() => this.props.navigation.navigate("Drawer")}
                 />
                 <MainButton
                     text="Customers"
