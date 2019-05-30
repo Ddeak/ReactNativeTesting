@@ -1,15 +1,18 @@
-import React, { useEffect, useState, useReducer } from "react";
+import { useEffect, useState, useReducer } from "react";
+import { Results } from "realm";
 
-import { getCustomers, getCustomerById } from "./api";
-import { ICustomer } from "./types";
+import { ICustomer } from "../../types";
 import { reducer, Actions, initialReducerState } from "./reducer";
+import { CustomerService } from "../../db";
 
-export const useCustomers = (refresh: boolean): ICustomer[] => {
-    const [customers, setCustomers] = useState([]);
+export const useCustomers = (refresh: boolean) => {
+    const [customers, setCustomers] = useState<Results<ICustomer> | never[]>(
+        []
+    );
 
     useEffect(() => {
-        const fetchCustomers = async () => {
-            const data = await getCustomers();
+        const fetchCustomers = () => {
+            const data = CustomerService.findAll();
             setCustomers(data);
         };
 
@@ -25,10 +28,12 @@ export const useCustomer = (id: string) => {
     if (!id) return [state, dispatch];
 
     useEffect(() => {
-        const fetchCustomer = async () => {
+        const fetchCustomer = () => {
             dispatch(Actions.setLoading(true));
-            const data = await getCustomerById(id);
-            dispatch(Actions.setState({ ...data, loading: false }));
+            const data = CustomerService.findById(id);
+
+            if (data) dispatch(Actions.setState({ ...data, loading: false }));
+            else dispatch(Actions.setLoading(false));
         };
 
         fetchCustomer();

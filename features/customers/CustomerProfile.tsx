@@ -8,6 +8,7 @@ import { LoadingScreen } from "../ui/LoadingScreen";
 import { MainButton } from "../ui/MainButton";
 
 import { useCustomer } from "./hooks";
+import { CustomerService } from "../../db";
 import { editCustomer, createCustomer, deleteCustomer } from "./api";
 import { Actions } from "./reducer";
 
@@ -16,9 +17,9 @@ interface IPropType {
 }
 
 export const CustomerProfile = withNavigation(({ navigation }: IPropType) => {
-    const _id = navigation.getParam("id");
+    const id = navigation.getParam("id");
     const onDone = navigation.getParam("onDone");
-    const [state, dispatch] = useCustomer(_id);
+    const [state, dispatch] = useCustomer(id);
     const { firstName, surname, phoneNumber, loading } = state;
 
     if (loading) return <LoadingScreen />;
@@ -26,8 +27,8 @@ export const CustomerProfile = withNavigation(({ navigation }: IPropType) => {
     const onSubmit = async () => {
         dispatch(Actions.setLoading(true));
         try {
-            const data = _id
-                ? await editCustomer({ _id, firstName, surname, phoneNumber })
+            const data = id
+                ? await editCustomer({ id, firstName, surname, phoneNumber })
                 : await createCustomer({ firstName, surname, phoneNumber });
 
             if (onDone) onDone();
@@ -42,9 +43,9 @@ export const CustomerProfile = withNavigation(({ navigation }: IPropType) => {
     const onDelete = async () => {
         dispatch(Actions.setLoading(true));
         try {
-            const data = await deleteCustomer(_id);
+            CustomerService.delete(id);
             if (onDone) onDone();
-            if (data.method === "Success") navigation.pop();
+            navigation.pop();
             dispatch(Actions.setLoading(false));
         } catch (err) {
             console.log("Something went wrong deleting a customer: ");
@@ -73,7 +74,7 @@ export const CustomerProfile = withNavigation(({ navigation }: IPropType) => {
                 onChangeText={text => dispatch(Actions.setPhoneNumber(text))}
             />
             <View style={styles.buttonRow}>
-                {_id && (
+                {id && (
                     <MainButton
                         icon="delete"
                         style={styles.deleteButton}
@@ -85,7 +86,7 @@ export const CustomerProfile = withNavigation(({ navigation }: IPropType) => {
                 <MainButton
                     icon="create"
                     disabled={loading}
-                    text={_id ? "Edit" : "Create"}
+                    text={id ? "Edit" : "Create"}
                     onPress={onSubmit}
                 />
             </View>

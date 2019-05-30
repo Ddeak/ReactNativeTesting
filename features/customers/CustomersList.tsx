@@ -11,7 +11,7 @@ import { withNavigation, NavigationScreenProp } from "react-navigation";
 import { theme } from "../../styles";
 
 import { SearchBar } from "../ui/SearchBar";
-import { ICustomer } from "./types";
+import { ICustomer } from "../../types";
 import { useCustomers } from "./hooks";
 
 interface IListProps {
@@ -28,7 +28,7 @@ const renderCustomerRow = (
     onPress: (id: string | undefined) => void
 ) => {
     return (
-        <TouchableOpacity style={styles.row} onPress={() => onPress(item._id)}>
+        <TouchableOpacity style={styles.row} onPress={() => onPress(item.id)}>
             <Text>
                 {item.firstName} {item.surname}
             </Text>

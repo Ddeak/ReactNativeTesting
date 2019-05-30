@@ -1,13 +1,5 @@
-import { ICustomer } from "./types";
-
-export const getCustomers = async () => {
-    try {
-        const response = await fetch("http://localhost:3001/customers");
-        return await response.json();
-    } catch (err) {
-        console.log("Error: Failed to get customers: ", err);
-    }
-};
+import { ICustomer } from "../../types";
+import { CustomerService } from "../../db";
 
 export const createCustomer = async ({
     firstName,
@@ -34,13 +26,13 @@ export const createCustomer = async ({
 };
 
 export const editCustomer = async ({
-    _id,
+    id,
     firstName,
     surname,
     phoneNumber,
 }: ICustomer) => {
     try {
-        const response = await fetch(`http://localhost:3001/customers/${_id}`, {
+        const response = await fetch(`http://localhost:3001/customers/${id}`, {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -58,28 +50,9 @@ export const editCustomer = async ({
     }
 };
 
-export const getCustomerById = async (id: string) => {
+export const deleteCustomer = (id: string) => {
     try {
-        const response = await fetch(`http://localhost:3001/customers/${id}`);
-        return await response.json();
-    } catch (err) {
-        console.log("Error: Failed to get customer: ", err);
-    }
-};
-
-export const deleteCustomer = async (_id: string) => {
-    try {
-        const response = await fetch(
-            `http://localhost:3001/customers/edit/${_id}`,
-            {
-                method: "DELETE",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        return await response.json();
+        return CustomerService.delete(id);
     } catch (err) {
         console.log("Error: Failed to delete Customer: ", err);
     }
