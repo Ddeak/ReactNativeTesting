@@ -9,7 +9,6 @@ import { MainButton } from "../ui/MainButton";
 
 import { useCustomer } from "./hooks";
 import { CustomerService } from "../../db";
-import { editCustomer, createCustomer, deleteCustomer } from "./api";
 import { Actions } from "./reducer";
 
 interface IPropType {
@@ -27,15 +26,13 @@ export const CustomerProfile = withNavigation(({ navigation }: IPropType) => {
     const onSubmit = async () => {
         dispatch(Actions.setLoading(true));
         try {
-            const data = id
-                ? await editCustomer({ id, firstName, surname, phoneNumber })
-                : await createCustomer({ firstName, surname, phoneNumber });
+            CustomerService.save({ id, firstName, surname, phoneNumber });
 
             if (onDone) onDone();
-            if (data.method === "Success") navigation.pop();
+            navigation.pop();
             dispatch(Actions.setLoading(false));
         } catch (err) {
-            console.log("Something went wrong creating a customer: ");
+            console.log("Something went wrong creating a customer: ", err);
             dispatch(Actions.setLoading(false));
         }
     };

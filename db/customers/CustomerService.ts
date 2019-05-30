@@ -17,17 +17,12 @@ export const CustomerService = {
     },
 
     save: function(customer: ICustomer) {
-        realm.write(() => {
-            customer.updatedAt = new Date();
-            realm.create("Customer", new CustomerModel(customer));
-        });
-    },
+        const isUpdate = customer.id ? true : false;
+        const c = isUpdate ? customer : new CustomerModel(customer);
 
-    update: function(customer: ICustomer, callback: () => void) {
-        if (!callback) return;
         realm.write(() => {
-            callback();
-            customer.updatedAt = new Date();
+            c.updatedAt = new Date();
+            realm.create("Customer", c, isUpdate);
         });
     },
 

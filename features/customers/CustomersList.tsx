@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
 } from "react-native";
 import { withNavigation, NavigationScreenProp } from "react-navigation";
+import { FAB } from "react-native-paper";
 
 import { theme } from "../../styles";
 
@@ -44,7 +45,7 @@ export const CustomersList = withNavigation(({ navigation }: IListProps) => {
         setRefresh(!refresh);
     };
 
-    const onRowPress = (id: string | undefined) => {
+    const onRowPress = (id?: string) => {
         navigation.push("CustomerProfile", { id, onDone });
     };
 
@@ -56,6 +57,7 @@ export const CustomersList = withNavigation(({ navigation }: IListProps) => {
                 renderItem={item => renderCustomerRow(item, onRowPress)}
                 keyExtractor={(_item, index) => `${index}`}
             />
+            <FAB style={styles.fab} icon="add" onPress={() => onRowPress()} />
         </View>
     );
 });
@@ -76,5 +78,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: theme.SECONDARY_COLOR,
+    },
+    fab: {
+        position: "absolute",
+        margin: 16,
+        right: 0,
+        bottom: 0,
     },
 });
