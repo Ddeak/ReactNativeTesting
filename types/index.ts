@@ -13,4 +13,6 @@ export interface IPet {
     name: string;
     breed: string;
     owner: ICustomer;
+    createdAt?: Date;
+    updatedAt?: Date;
 }

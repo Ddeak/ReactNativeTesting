@@ -12,48 +12,46 @@ import { FAB } from "react-native-paper";
 import { theme } from "../../styles";
 
 import { SearchBar } from "../ui/SearchBar";
-import { ICustomer } from "../../types";
-import { useCustomers } from "./hooks";
+import { IPet } from "../../types";
+import { usePets } from "./hooks";
 
 interface IListProps {
     navigation: NavigationScreenProp<any, any>;
 }
 
 interface IRowProps {
-    item: ICustomer;
+    item: IPet;
 }
 
-const renderCustomerRow = (
+const renderPetRow = (
     { item }: IRowProps,
     onPress: (id: string | undefined) => void
 ) => {
     return (
         <TouchableOpacity style={styles.row} onPress={() => onPress(item.id)}>
-            <Text>
-                {item.firstName} {item.surname}
-            </Text>
+            <Text>{item.name}</Text>
         </TouchableOpacity>
     );
 };
 
-export const CustomersList = withNavigation(({ navigation }: IListProps) => {
+export const PetList = withNavigation(({ navigation }: IListProps) => {
     const [refresh, setRefresh] = useState(true);
-    const customers = useCustomers(refresh);
+    const pets = usePets(refresh);
 
     const onDone = () => {
         setRefresh(!refresh);
     };
 
     const onRowPress = (id?: string) => {
-        navigation.push("CustomerProfile", { id, onDone });
+        navigation.push("PetProfile", { id, onDone });
     };
 
     return (
         <View style={styles.container}>
             <SearchBar />
             <FlatList
-                data={customers}
-                renderItem={item => renderCustomerRow(item, onRowPress)}
+                data={pets}
+                renderItem={item => renderPetRow(item, onRowPress)}
                 keyExtractor={(_item, index) => `${index}`}
             />
             <FAB style={styles.fab} icon="add" onPress={() => onRowPress()} />

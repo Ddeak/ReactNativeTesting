@@ -1,7 +1,7 @@
 import uuid from "react-native-uuid";
 import { IPet, ICustomer } from "../../types";
 
-export class CustomerModel {
+export class PetModel {
     id: string;
     name: string = "";
     breed: string = "";

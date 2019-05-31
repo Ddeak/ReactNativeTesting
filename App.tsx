@@ -10,13 +10,14 @@ import React from "react";
 import { createDrawerNavigator, createAppContainer } from "react-navigation";
 import { Provider } from "react-native-paper";
 
-import { HomeScreen, CustomerStack } from "./features";
+import { HomeScreen, CustomerStack, PetStack } from "./features";
 import { materialTheme } from "./styles";
 
 const AppNavigator = createDrawerNavigator(
     {
         Home: HomeScreen,
         Customers: CustomerStack,
+        Pets: PetStack,
     },
     {
         initialRouteName: "Home",

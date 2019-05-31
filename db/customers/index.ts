@@ -1,1 +1,1 @@
-export { CustomerService } from "./CustomerService";
+export { CustomerService } from "./service";
