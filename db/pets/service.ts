@@ -12,6 +12,12 @@ export const PetService = {
         return realm.objects("Pet");
     },
 
+    findFiltered: (filter: string): Results<IPet> => {
+        const filterString = `name CONTAINS[c] "${filter}" OR breed CONTAINS[c] "${filter}"`;
+        // @ts-ignore
+        return realm.objects("Pet").filtered(filterString);
+    },
+
     findById: (id: string): IPet | undefined => {
         return realm.objectForPrimaryKey("Pet", id);
     },

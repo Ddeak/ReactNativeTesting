@@ -8,7 +8,8 @@ interface IPropTypes {
 }
 
 export const NavigationHeader = ({ navigation }: IPropTypes) => {
-    const index = navigation.state.index;
+    const { index, routeName } = navigation.state;
+
     return (
         <Appbar style={styles.appBar}>
             {index === 0 ? (
@@ -25,6 +26,7 @@ export const NavigationHeader = ({ navigation }: IPropTypes) => {
                     }}
                 />
             )}
+            <Appbar.Content title={routeName} />
         </Appbar>
     );
 };

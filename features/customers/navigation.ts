@@ -6,10 +6,7 @@ import { NavigationHeader } from "../ui/NavigationHeader";
 
 export const CustomerStack = createStackNavigator(
     {
-        Customers: {
-            screen: CustomersList,
-            navigationOptions: { title: "Hello" },
-        },
+        Customers: { screen: CustomersList },
         CustomerProfile: { screen: CustomerProfile },
     },
     {

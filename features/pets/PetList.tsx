@@ -36,7 +36,12 @@ const renderPetRow = (
 
 export const PetList = withNavigation(({ navigation }: IListProps) => {
     const [refresh, setRefresh] = useState(true);
-    const pets = usePets(refresh);
+    const [filter, setFilter] = useState("");
+    const pets = usePets(refresh, filter);
+
+    const onSearchChange = (text: string) => {
+        setFilter(text);
+    };
 
     const onDone = () => {
         setRefresh(!refresh);
@@ -48,7 +53,7 @@ export const PetList = withNavigation(({ navigation }: IListProps) => {
 
     return (
         <View style={styles.container}>
-            <SearchBar />
+            <SearchBar onSearchChange={onSearchChange} />
             <FlatList
                 data={pets}
                 renderItem={item => renderPetRow(item, onRowPress)}

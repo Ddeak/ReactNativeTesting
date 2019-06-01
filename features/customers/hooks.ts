@@ -5,19 +5,21 @@ import { ICustomer } from "../../types";
 import { reducer, Actions, initialReducerState } from "./reducer";
 import { CustomerService } from "../../db";
 
-export const useCustomers = (refresh: boolean) => {
+export const useCustomers = (refresh: boolean, filter?: string) => {
     const [customers, setCustomers] = useState<Results<ICustomer> | never[]>(
         []
     );
 
     useEffect(() => {
         const fetchCustomers = () => {
-            const data = CustomerService.findAll();
+            const data = filter
+                ? CustomerService.findFiltered(filter)
+                : CustomerService.findAll();
             setCustomers(data);
         };
 
         fetchCustomers();
-    }, [refresh]);
+    }, [refresh, filter]);
 
     return customers;
 };

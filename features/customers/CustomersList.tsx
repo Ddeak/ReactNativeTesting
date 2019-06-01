@@ -38,7 +38,12 @@ const renderCustomerRow = (
 
 export const CustomersList = withNavigation(({ navigation }: IListProps) => {
     const [refresh, setRefresh] = useState(true);
-    const customers = useCustomers(refresh);
+    const [filter, setFilter] = useState("");
+    const customers = useCustomers(refresh, filter);
+
+    const onSearchChange = (text: string) => {
+        setFilter(text);
+    };
 
     const onDone = () => {
         setRefresh(!refresh);
@@ -50,7 +55,7 @@ export const CustomersList = withNavigation(({ navigation }: IListProps) => {
 
     return (
         <View style={styles.container}>
-            <SearchBar />
+            <SearchBar onSearchChange={onSearchChange} />
             <FlatList
                 data={customers}
                 renderItem={item => renderCustomerRow(item, onRowPress)}

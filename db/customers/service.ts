@@ -12,6 +12,12 @@ export const CustomerService = {
         return realm.objects("Customer");
     },
 
+    findFiltered: (filter: string): Results<ICustomer> => {
+        const filterString = `firstName CONTAINS[c] "${filter}" OR surname CONTAINS[c] "${filter}" OR phoneNumber CONTAINS "${filter}"`;
+        // @ts-ignore
+        return realm.objects("Customer").filtered(filterString);
+    },
+
     findById: (id: string): ICustomer | undefined => {
         return realm.objectForPrimaryKey("Customer", id);
     },
