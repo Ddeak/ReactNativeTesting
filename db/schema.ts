@@ -19,6 +19,11 @@ const PetSchema = {
         id: { type: "string", indexed: true },
         name: "string",
         breed: "string",
+        owner: {
+            type: "linkingObjects",
+            objectType: "Customer",
+            property: "pets",
+        },
         createdAt: "date",
         updatedAt: "date",
     },

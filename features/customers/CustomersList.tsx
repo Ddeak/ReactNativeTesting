@@ -25,10 +25,10 @@ interface IRowProps {
 
 const renderCustomerRow = (
     { item }: IRowProps,
-    onPress: (id: string | undefined) => void
+    onPress: (id: string | ICustomer | undefined) => void
 ) => {
     return (
-        <TouchableOpacity style={styles.row} onPress={() => onPress(item.id)}>
+        <TouchableOpacity style={styles.row} onPress={() => onPress(item)}>
             <Text>
                 {item.firstName} {item.surname}
             </Text>
@@ -40,6 +40,7 @@ export const CustomersList = withNavigation(({ navigation }: IListProps) => {
     const [refresh, setRefresh] = useState(true);
     const [filter, setFilter] = useState("");
     const customers = useCustomers(refresh, filter);
+    const onRowPress = navigation.getParam("onRowPress");
 
     const onSearchChange = (text: string) => {
         setFilter(text);
@@ -49,7 +50,8 @@ export const CustomersList = withNavigation(({ navigation }: IListProps) => {
         setRefresh(!refresh);
     };
 
-    const onRowPress = (id?: string) => {
+    const defaultRowPress = (customer?: ICustomer) => {
+        const id = customer ? customer.id : null;
         navigation.push("CustomerProfile", { id, onDone });
     };
 
@@ -58,10 +60,18 @@ export const CustomersList = withNavigation(({ navigation }: IListProps) => {
             <SearchBar onSearchChange={onSearchChange} />
             <FlatList
                 data={customers}
-                renderItem={item => renderCustomerRow(item, onRowPress)}
+                renderItem={item =>
+                    renderCustomerRow(item, onRowPress || defaultRowPress)
+                }
                 keyExtractor={(_item, index) => `${index}`}
             />
-            <FAB style={styles.fab} icon="add" onPress={() => onRowPress()} />
+            {!onRowPress && (
+                <FAB
+                    style={styles.fab}
+                    icon="add"
+                    onPress={() => defaultRowPress()}
+                />
+            )}
         </View>
     );
 });

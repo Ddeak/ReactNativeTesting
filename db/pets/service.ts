@@ -1,6 +1,6 @@
 import Realm, { Results } from "realm";
 import { schema } from "../schema";
-import { IPet } from "../../types";
+import { IPet, ICustomer } from "../../types";
 import { PetModel } from "./model";
 
 const realm = new Realm({
@@ -19,16 +19,25 @@ export const PetService = {
     },
 
     findById: (id: string): IPet | undefined => {
-        return realm.objectForPrimaryKey("Pet", id);
+        const pet = realm.objectForPrimaryKey("Pet", id);
+        // @ts-ignore
+        return { ...pet, owner: pet.owner[0] };
     },
 
     save: function(pet: IPet) {
         const isUpdate = pet.id ? true : false;
-        const p = isUpdate ? pet : new PetModel(pet);
+        const p = new PetModel(pet);
+        const owner: ICustomer | undefined = realm.objectForPrimaryKey(
+            "Customer",
+            `${p.owner.id}`
+        );
+
+        if (!owner) return;
 
         realm.write(() => {
             p.updatedAt = new Date();
-            realm.create("Pet", p, isUpdate);
+            if (isUpdate) realm.delete(realm.objectForPrimaryKey("Pet", p.id));
+            if (owner.pets) owner.pets.push(p);
         });
     },
 

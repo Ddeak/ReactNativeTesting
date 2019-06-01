@@ -9,12 +9,12 @@ export class PetModel {
     updatedAt: Date;
     createdAt: Date;
 
-    constructor({ name, breed, owner }: IPet) {
-        this.id = uuid.v4();
+    constructor({ id, name, breed, owner, createdAt, updatedAt }: IPet) {
+        this.id = id || uuid.v4();
         this.name = name;
         this.breed = breed;
         this.owner = owner;
-        this.createdAt = new Date();
-        this.updatedAt = new Date();
+        this.createdAt = createdAt || new Date();
+        this.updatedAt = updatedAt || new Date();
     }
 }

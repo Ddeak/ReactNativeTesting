@@ -9,12 +9,19 @@ export class CustomerModel {
     updatedAt: Date;
     createdAt: Date;
 
-    constructor({ firstName, surname, phoneNumber }: ICustomer) {
-        this.id = uuid.v4();
+    constructor({
+        id,
+        firstName,
+        surname,
+        phoneNumber,
+        createdAt,
+        updatedAt,
+    }: ICustomer) {
+        this.id = id || uuid.v4();
         this.firstName = firstName;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
-        this.createdAt = new Date();
-        this.updatedAt = new Date();
+        this.createdAt = createdAt || new Date();
+        this.updatedAt = updatedAt || new Date();
     }
 }
