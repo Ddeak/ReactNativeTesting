@@ -6,7 +6,7 @@ import {
     Text,
     TouchableOpacity,
 } from "react-native";
-import { withNavigation, NavigationScreenProp } from "react-navigation";
+import { NavigationScreenProp } from "react-navigation";
 import { FAB } from "react-native-paper";
 
 import { theme } from "../../styles";
@@ -36,7 +36,7 @@ const renderCustomerRow = (
     );
 };
 
-export const CustomersList = withNavigation(({ navigation }: IListProps) => {
+export const CustomersList = ({ navigation }: IListProps) => {
     const [refresh, setRefresh] = useState(true);
     const [filter, setFilter] = useState("");
     const customers = useCustomers(refresh, filter);
@@ -74,7 +74,7 @@ export const CustomersList = withNavigation(({ navigation }: IListProps) => {
             )}
         </View>
     );
-});
+};
 
 const styles = StyleSheet.create({
     container: {

@@ -7,8 +7,8 @@ import { NavigationHeader } from "../ui/NavigationHeader";
 
 export const PetStack = createStackNavigator(
     {
-        Pets: { screen: PetList },
-        PetProfile: { screen: PetProfile },
+        Pets: PetList,
+        PetProfile: PetProfile,
         CustomerList: CustomersList,
     },
     {

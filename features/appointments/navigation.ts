@@ -1,13 +1,13 @@
 import { createStackNavigator } from "react-navigation";
 
-import { CustomersList } from "./CustomersList";
-import { CustomerProfile } from "./CustomerProfile";
+import { AppointmentList } from "./AppointmentList";
+import { Appointment } from "./Appointment";
 import { NavigationHeader } from "../ui/NavigationHeader";
 
-export const CustomerStack = createStackNavigator(
+export const AppointmentStack = createStackNavigator(
     {
-        Customers: CustomersList,
-        CustomerProfile: CustomerProfile,
+        Appointments: AppointmentList,
+        Appointment: Appointment,
     },
     {
         defaultNavigationOptions: {

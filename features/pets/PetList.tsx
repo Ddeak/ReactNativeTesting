@@ -6,7 +6,7 @@ import {
     Text,
     TouchableOpacity,
 } from "react-native";
-import { withNavigation, NavigationScreenProp } from "react-navigation";
+import { NavigationScreenProp } from "react-navigation";
 import { FAB } from "react-native-paper";
 
 import { theme } from "../../styles";
@@ -34,7 +34,7 @@ const renderPetRow = (
     );
 };
 
-export const PetList = withNavigation(({ navigation }: IListProps) => {
+export const PetList = ({ navigation }: IListProps) => {
     const [refresh, setRefresh] = useState(true);
     const [filter, setFilter] = useState("");
     const pets = usePets(refresh, filter);
@@ -62,7 +62,7 @@ export const PetList = withNavigation(({ navigation }: IListProps) => {
             <FAB style={styles.fab} icon="add" onPress={() => onRowPress()} />
         </View>
     );
-});
+};
 
 const styles = StyleSheet.create({
     container: {
