@@ -1,24 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
-import { FAB } from "react-native-paper";
+import { FAB, Title } from "react-native-paper";
 
 import { theme } from "../../styles";
+
+import { ListHeader } from "./ListHeader";
 
 interface IListProps {
     navigation: NavigationScreenProp<any, any>;
 }
 
 export const AppointmentList = ({ navigation }: IListProps) => {
-    // const customers = useAppointments(refresh, filter);
+    const [date, setDate] = useState(new Date());
+    // const appointments = useAppointments(refresh, filter);
 
     const onDone = () => {};
     const onNewClick = () => {
         navigation.push("Appointment");
     };
+    const toggleDate = (days: number) => {
+        let newDate = new Date(date);
+        newDate.setDate(newDate.getDate() + days);
+        setDate(newDate);
+    };
 
     return (
         <View style={styles.container}>
+            <ListHeader date={date} toggleDate={toggleDate} />
             <FAB style={styles.fab} icon="add" onPress={onNewClick} />
         </View>
     );
