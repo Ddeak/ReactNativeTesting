@@ -16,3 +16,13 @@ export interface IPet {
     createdAt?: Date;
     updatedAt?: Date;
 }
+
+export interface IAppointment {
+    id?: string;
+    date: Date;
+    customer: ICustomer;
+    startTime: string;
+    duration: number;
+    createdAt?: Date;
+    updatedAt?: Date;
+}

@@ -1,11 +1,10 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { TextInput, Chip } from "react-native-paper";
+import { TextInput } from "react-native-paper";
 import { NavigationScreenProp } from "react-navigation";
 
 import { theme } from "../../styles";
-import { MainButton } from "../ui/MainButton";
-import { LoadingScreen } from "../ui/LoadingScreen";
+import { MainButton, LoadingScreen, CustomerChip } from "../ui";
 
 import { usePet } from "./hooks";
 import { Actions } from "./reducer";
@@ -73,23 +72,13 @@ export const PetProfile = ({ navigation }: IPropsType) => {
                 value={breed}
                 onChangeText={text => dispatch(Actions.setBreed(text))}
             />
-            <View style={styles.addCustomerButtonView}>
-                {owner ? (
-                    <Chip
-                        style={{ marginTop: 15 }}
-                        onClose={() => dispatch(Actions.setOwner())}
-                    >
-                        {owner.firstName}
-                    </Chip>
-                ) : (
-                    <MainButton
-                        icon="add"
-                        style={styles.addCustomerButton}
-                        text="Add Customer"
-                        onPress={onAddCustomer}
-                    />
-                )}
-            </View>
+
+            <CustomerChip
+                customer={owner}
+                onClose={() => dispatch(Actions.setOwner())}
+                onAddCustomer={onAddCustomer}
+            />
+
             <View style={styles.buttonRow}>
                 {id && (
                     <MainButton
@@ -132,14 +121,5 @@ const styles = StyleSheet.create({
     },
     deleteButton: {
         backgroundColor: theme.DELETE_COLOR,
-    },
-    addCustomerButton: {
-        width: 250,
-    },
-    addCustomerButtonView: {
-        height: 75,
-        width: "100%",
-        alignItems: "center",
-        justifyContent: "center",
     },
 });

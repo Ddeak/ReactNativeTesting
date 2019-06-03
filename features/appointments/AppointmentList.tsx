@@ -13,7 +13,7 @@ interface IListProps {
 
 export const AppointmentList = ({ navigation }: IListProps) => {
     const [date, setDate] = useState(new Date());
-    // const appointments = useAppointments(refresh, filter);
+    // const appointmentsc = useAppointments(refresh, filter);
 
     const onDone = () => {};
     const onNewClick = () => {

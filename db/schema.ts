@@ -29,4 +29,18 @@ const PetSchema = {
     },
 };
 
-export const schema = [CustomerSchema, PetSchema];
+const AppointmentSchema = {
+    name: "Appointment",
+    primaryKey: "id",
+    properties: {
+        id: { type: "string", indexed: true },
+        customer: "Customer",
+        date: "date",
+        startTime: "string",
+        duration: "int",
+        createdAt: "date",
+        updatedAt: "date",
+    },
+};
+
+export const schema = [CustomerSchema, PetSchema, AppointmentSchema];
