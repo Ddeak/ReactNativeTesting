@@ -3,13 +3,12 @@ import { View, StyleSheet } from "react-native";
 import { TextInput } from "react-native-paper";
 import { NavigationScreenProp } from "react-navigation";
 
+import { ICustomer } from "../../types";
 import { theme } from "../../styles";
-import { MainButton, LoadingScreen, CustomerChip } from "../ui";
+import { LoadingScreen, DatePicker, CustomerChip, MainButton } from "../ui";
 
 import { useAppointment } from "./hooks";
 import { Actions } from "./reducer";
-import { ICustomer } from "../../types";
-import { PetService } from "../../db";
 
 interface IPropsType {
     navigation: NavigationScreenProp<any, any>;
@@ -18,19 +17,36 @@ interface IPropsType {
 export const Appointment = ({ navigation }: IPropsType) => {
     const id = navigation.getParam("id");
     const [state, dispatch] = useAppointment(id);
-    const { duration, loading } = state;
+    const { date, customer, duration, loading } = state;
 
     if (loading) return <LoadingScreen />;
 
-    const onDelete = async () => {};
+    const onDelete = () => {
+        navigation.pop();
+    };
 
-    const onSubmit = async () => {};
+    const onSubmit = () => {
+        navigation.pop();
+    };
+
+    const onAddCustomer = () => {
+        navigation.push("CustomerList", {
+            onRowPress: (customer: ICustomer) => {
+                dispatch(Actions.setCustomer(customer));
+                navigation.pop();
+            },
+        });
+    };
 
     return (
         <View style={styles.container}>
+            <DatePicker
+                date={date}
+                handleDatePicked={date => dispatch(Actions.setDate(date))}
+            />
             <TextInput
                 style={styles.textInput}
-                label="Duration"
+                label="Duration (Hours)"
                 value={`${duration}`}
                 onChangeText={text => {
                     let newDuration = Number.parseInt(text);
@@ -38,6 +54,28 @@ export const Appointment = ({ navigation }: IPropsType) => {
                     dispatch(Actions.setDuration(newDuration));
                 }}
             />
+            <CustomerChip
+                customer={customer}
+                onClose={() => dispatch(Actions.setCustomer())}
+                onAddCustomer={onAddCustomer}
+            />
+            <View style={styles.buttonRow}>
+                {id && (
+                    <MainButton
+                        icon="delete"
+                        style={styles.deleteButton}
+                        disabled={loading}
+                        text={"Delete"}
+                        onPress={onDelete}
+                    />
+                )}
+                <MainButton
+                    icon="create"
+                    disabled={loading || !customer}
+                    text={id ? "Edit" : "Create"}
+                    onPress={onSubmit}
+                />
+            </View>
         </View>
     );
 };
@@ -55,5 +93,13 @@ const styles = StyleSheet.create({
         marginTop: 10,
         height: 60,
         width: "90%",
+    },
+    buttonRow: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "flex-end",
+    },
+    deleteButton: {
+        backgroundColor: theme.DELETE_COLOR,
     },
 });

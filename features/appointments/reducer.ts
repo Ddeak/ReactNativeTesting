@@ -1,3 +1,4 @@
+import moment from "moment";
 import { ICustomer } from "../../types";
 
 export interface IStateType {
@@ -17,8 +18,14 @@ interface IActionTypes {
     [key: string]: string;
 }
 
+const roundDate = (date: Date): Date => {
+    const m = moment(date);
+    const roundedDate = m.minute(Math.round(m.minute() / 15) * 15);
+    return roundedDate.toDate();
+};
+
 export const initialReducerState = {
-    date: new Date(),
+    date: roundDate(new Date()),
     duration: 0,
     startTime: "",
     loading: false,
@@ -64,7 +71,8 @@ export const reducer = (state: IStateType, action: IActionType) => {
     const { payload } = action;
     switch (action.type) {
         case ActionTypes.UpdateDate:
-            return { ...state, date: payload };
+            const newDate = roundDate(payload);
+            return { ...state, date: newDate };
         case ActionTypes.UpdateDuration:
             return { ...state, duration: payload };
         case ActionTypes.UpdateCustomer:
