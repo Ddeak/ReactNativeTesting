@@ -4,14 +4,14 @@ import { reducer, Actions, initialReducerState } from "./reducer";
 import { AppointmentService } from "../../db";
 import { IAppointment } from "../../types";
 
-export const useAppointments = (refresh: boolean) => {
+export const useAppointments = (refresh: boolean, date: Date) => {
     const [appointments, setAppointments] = useState<
         Results<IAppointment> | never[]
     >([]);
 
     useEffect(() => {
         const fetchCustomers = () => {
-            const data = AppointmentService.findAll();
+            const data = AppointmentService.findAll(date);
             setAppointments(data);
         };
 

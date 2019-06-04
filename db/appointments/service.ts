@@ -8,8 +8,16 @@ const realm = new Realm({
 });
 
 export const AppointmentService = {
-    findAll: (): Results<IAppointment> => {
-        return realm.objects("Appointment");
+    findAll: (date: Date): Results<IAppointment> => {
+        let currentDay = new Date(date);
+        currentDay.setHours(0, 0, 0, 0);
+        let nextDay = new Date(date);
+        nextDay.setHours(24, 0, 0, 0);
+
+        // @ts-ignore
+        return realm
+            .objects("Appointment")
+            .filtered("date >= $0 AND date <= $1", currentDay, nextDay);
     },
 
     findById: (id: string): IAppointment | undefined => {

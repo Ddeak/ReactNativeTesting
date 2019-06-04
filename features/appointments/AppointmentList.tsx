@@ -31,8 +31,9 @@ const renderAppointmentRow = (
 };
 
 export const AppointmentList = ({ navigation }: IListProps) => {
+    const [refresh, setRefresh] = useState(false);
     const [date, setDate] = useState(new Date());
-    const appointments = useAppointments(false);
+    const appointments = useAppointments(refresh, date);
 
     const onDone = () => {};
 
@@ -44,6 +45,7 @@ export const AppointmentList = ({ navigation }: IListProps) => {
         let newDate = new Date(date);
         newDate.setDate(newDate.getDate() + days);
         setDate(newDate);
+        setRefresh(!refresh);
     };
 
     return (
