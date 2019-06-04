@@ -35,10 +35,12 @@ export const AppointmentList = ({ navigation }: IListProps) => {
     const [date, setDate] = useState(new Date());
     const appointments = useAppointments(refresh, date);
 
-    const onDone = () => {};
+    const onDone = () => {
+        setRefresh(!refresh);
+    };
 
     const onRowPress = (id?: string) => {
-        navigation.push("Appointment", { id });
+        navigation.push("Appointment", { id, onDone });
     };
 
     const toggleDate = (days: number) => {
