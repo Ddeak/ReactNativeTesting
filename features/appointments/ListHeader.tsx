@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { Title, IconButton, FAB } from "react-native-paper";
+import { Title, FAB, TouchableRipple } from "react-native-paper";
+import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
 
 import { theme } from "../../styles";
 
 interface IPropsType {
     date: Date;
-    toggleDate: (days: number) => void;
+    toggleDate: (days: number | Date) => void;
 }
 
 const getDateText = (date: Date): string => {
@@ -24,20 +25,36 @@ const getDateText = (date: Date): string => {
 };
 
 export const ListHeader = ({ date, toggleDate }: IPropsType) => {
+    const [pickerVisible, setPickerVisible] = useState(false);
     const dateText = getDateText(date);
 
+    const onDateSelected = (date: Date) => {
+        toggleDate(date);
+        setPickerVisible(false);
+    };
+
     return (
-        <View style={styles.container}>
-            <FAB small icon="arrow-back" onPress={() => toggleDate(-1)} />
-            <Title style={styles.titleText}>{dateText}</Title>
-            <FAB small icon="arrow-forward" onPress={() => toggleDate(1)} />
+        <View>
+            <View style={styles.container}>
+                <FAB small icon="arrow-back" onPress={() => toggleDate(-1)} />
+                <TouchableRipple onPress={() => setPickerVisible(true)}>
+                    <Title style={styles.titleText}>{dateText}</Title>
+                </TouchableRipple>
+                <FAB small icon="arrow-forward" onPress={() => toggleDate(1)} />
+            </View>
+            <DateTimePicker
+                isVisible={pickerVisible}
+                mode={"date"}
+                onConfirm={onDateSelected}
+                onCancel={() => setPickerVisible(false)}
+            />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 10,
+        marginVertical: 10,
         width: "100%",
         alignItems: "center",
         justifyContent: "space-evenly",

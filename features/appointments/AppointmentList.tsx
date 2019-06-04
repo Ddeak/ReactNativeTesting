@@ -43,11 +43,14 @@ export const AppointmentList = ({ navigation }: IListProps) => {
         navigation.push("Appointment", { id, onDone });
     };
 
-    const toggleDate = (days: number) => {
-        let newDate = new Date(date);
-        newDate.setDate(newDate.getDate() + days);
-        setDate(newDate);
-        setRefresh(!refresh);
+    const toggleDate = (days: number | Date) => {
+        if (typeof days === "number") {
+            let newDate = new Date(date);
+            newDate.setDate(newDate.getDate() + days);
+            setDate(newDate);
+        } else {
+            setDate(days);
+        }
     };
 
     return (

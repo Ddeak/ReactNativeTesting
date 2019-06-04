@@ -16,7 +16,7 @@ export const useAppointments = (refresh: boolean, date: Date) => {
         };
 
         fetchCustomers();
-    }, [refresh]);
+    }, [refresh, date]);
 
     return appointments;
 };
