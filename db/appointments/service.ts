@@ -14,10 +14,11 @@ export const AppointmentService = {
         let nextDay = new Date(date);
         nextDay.setHours(24, 0, 0, 0);
 
-        // @ts-ignore
-        return realm
+        const dates = realm
             .objects("Appointment")
             .filtered("date >= $0 AND date <= $1", currentDay, nextDay);
+        // @ts-ignore
+        return dates.sorted("date");
     },
 
     findById: (id: string): IAppointment | undefined => {

@@ -37,7 +37,10 @@ export const ListHeader = ({ date, toggleDate }: IPropsType) => {
         <View>
             <View style={styles.container}>
                 <FAB small icon="arrow-back" onPress={() => toggleDate(-1)} />
-                <TouchableRipple onPress={() => setPickerVisible(true)}>
+                <TouchableRipple
+                    onPress={() => setPickerVisible(true)}
+                    rippleColor="rgba(255, 255, 255, 0.5)"
+                >
                     <Title style={styles.titleText}>{dateText}</Title>
                 </TouchableRipple>
                 <FAB small icon="arrow-forward" onPress={() => toggleDate(1)} />

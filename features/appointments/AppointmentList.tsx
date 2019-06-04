@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 import { FAB, Text } from "react-native-paper";
+import moment from "moment";
 
 import { theme } from "../../styles";
 import { useAppointments } from "./hooks";
@@ -17,14 +18,20 @@ interface IRowProps {
     item: IAppointment;
 }
 
+const formatDate = (date: Date): string => {
+    const m = moment(date);
+    return `${m.format("HH:mm")}`;
+};
+
 const renderAppointmentRow = (
     { item }: IRowProps,
     onPress: (id?: string) => void
 ) => {
+    const { firstName, surname } = item.customer;
     return (
         <TouchableOpacity style={styles.row} onPress={() => onPress(item.id)}>
             <Text>
-                {`${item.date}`} - {item.customer.firstName}
+                {formatDate(item.date)} - {`${firstName} ${surname}`}
             </Text>
         </TouchableOpacity>
     );
@@ -82,8 +89,8 @@ const styles = StyleSheet.create({
     },
     row: {
         flex: 1,
-        height: 30,
-        width: 250,
+        height: 35,
+        width: 300,
         margin: 5,
         alignItems: "center",
         justifyContent: "center",
