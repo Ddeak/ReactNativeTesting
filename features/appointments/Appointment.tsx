@@ -9,6 +9,7 @@ import { LoadingScreen, DatePicker, CustomerChip, MainButton } from "../ui";
 
 import { useAppointment } from "./hooks";
 import { Actions } from "./reducer";
+import { AppointmentService } from "../../db";
 
 interface IPropsType {
     navigation: NavigationScreenProp<any, any>;
@@ -16,17 +17,37 @@ interface IPropsType {
 
 export const Appointment = ({ navigation }: IPropsType) => {
     const id = navigation.getParam("id");
+    const onDone = navigation.getParam("onDone");
     const [state, dispatch] = useAppointment(id);
     const { date, customer, duration, loading } = state;
 
     if (loading) return <LoadingScreen />;
 
     const onDelete = () => {
-        navigation.pop();
+        dispatch(Actions.setLoading(true));
+        try {
+            AppointmentService.delete(id);
+            if (onDone) onDone();
+            dispatch(Actions.setLoading(false));
+            navigation.pop();
+        } catch (err) {
+            console.log("Something went wrong deleting an appointment: ", err);
+            dispatch(Actions.setLoading(false));
+        }
     };
 
     const onSubmit = () => {
-        navigation.pop();
+        dispatch(Actions.setLoading(true));
+        try {
+            AppointmentService.save({ id, date, customer, duration });
+
+            if (onDone) onDone();
+            dispatch(Actions.setLoading(false));
+            navigation.pop();
+        } catch (err) {
+            console.log("Something went wrong creating an appointment: ", err);
+            dispatch(Actions.setLoading(false));
+        }
     };
 
     const onAddCustomer = () => {

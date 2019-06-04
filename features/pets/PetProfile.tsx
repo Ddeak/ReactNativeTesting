@@ -31,7 +31,7 @@ export const PetProfile = ({ navigation }: IPropsType) => {
             navigation.pop();
             dispatch(Actions.setLoading(false));
         } catch (err) {
-            console.log("Something went wrong deleting a customer: ");
+            console.log("Something went wrong deleting a pet: ", err);
             dispatch(Actions.setLoading(false));
         }
     };
@@ -45,7 +45,7 @@ export const PetProfile = ({ navigation }: IPropsType) => {
             navigation.pop();
             dispatch(Actions.setLoading(false));
         } catch (err) {
-            console.log("Something went wrong creating a customer: ", err);
+            console.log("Something went wrong creating a pet: ", err);
             dispatch(Actions.setLoading(false));
         }
     };

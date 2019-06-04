@@ -1,6 +1,25 @@
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useState } from "react";
+import { Results } from "realm";
 import { reducer, Actions, initialReducerState } from "./reducer";
 import { AppointmentService } from "../../db";
+import { IAppointment } from "../../types";
+
+export const useAppointments = (refresh: boolean) => {
+    const [appointments, setAppointments] = useState<
+        Results<IAppointment> | never[]
+    >([]);
+
+    useEffect(() => {
+        const fetchCustomers = () => {
+            const data = AppointmentService.findAll();
+            setAppointments(data);
+        };
+
+        fetchCustomers();
+    }, [refresh]);
+
+    return appointments;
+};
 
 export const useAppointment = (id: string) => {
     const [state, dispatch] = useReducer(reducer, initialReducerState);

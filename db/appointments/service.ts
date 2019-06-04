@@ -8,7 +8,7 @@ const realm = new Realm({
 });
 
 export const AppointmentService = {
-    findAll: () => {
+    findAll: (): Results<IAppointment> => {
         return realm.objects("Appointment");
     },
 

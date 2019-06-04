@@ -36,7 +36,6 @@ const AppointmentSchema = {
         id: { type: "string", indexed: true },
         customer: "Customer",
         date: "date",
-        startTime: "string",
         duration: "int",
         createdAt: "date",
         updatedAt: "date",

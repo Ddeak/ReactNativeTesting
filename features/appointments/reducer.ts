@@ -4,7 +4,6 @@ import { ICustomer } from "../../types";
 export interface IStateType {
     date: Date;
     duration: number;
-    startTime: string;
     customer: ICustomer | undefined;
     loading: boolean;
 }
@@ -27,7 +26,6 @@ const roundDate = (date: Date): Date => {
 export const initialReducerState = {
     date: roundDate(new Date()),
     duration: 0,
-    startTime: "",
     loading: false,
 };
 
@@ -35,7 +33,6 @@ export const ActionTypes: IActionTypes = {
     UpdateDate: "@Appointment/UpdateDate",
     UpdateDuration: "@Appointment/UpdateDuration",
     UpdateCustomer: "@Appointment/UpdateCustomer",
-    UpdateStartTime: "@Appointment/UpdateStartTime",
     UpdateLoading: "@Appointment/UpdateLoading",
     SetState: "@Appointment/SetState",
 };
@@ -52,10 +49,6 @@ export const Actions = {
     setCustomer: (customer?: ICustomer | undefined) => ({
         type: ActionTypes.UpdateCustomer,
         payload: customer,
-    }),
-    setStartTime: (startTime: string) => ({
-        type: ActionTypes.UpdateStartTime,
-        payload: startTime,
     }),
     setLoading: (loading: boolean) => ({
         type: ActionTypes.UpdateLoading,
@@ -77,8 +70,6 @@ export const reducer = (state: IStateType, action: IActionType) => {
             return { ...state, duration: payload };
         case ActionTypes.UpdateCustomer:
             return { ...state, customer: payload };
-        case ActionTypes.UpdateStartTime:
-            return { ...state, startTime: payload };
         case ActionTypes.UpdateLoading:
             return { ...state, loading: payload };
         case ActionTypes.SetState:
