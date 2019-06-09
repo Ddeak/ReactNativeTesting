@@ -1,13 +1,7 @@
 import React, { useState } from "react";
-import {
-    View,
-    StyleSheet,
-    FlatList,
-    Text,
-    TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
-import { FAB } from "react-native-paper";
+import { FAB, Text } from "react-native-paper";
 
 import { theme } from "../../styles";
 
@@ -92,6 +86,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: theme.SECONDARY_COLOR,
+        borderRadius: 5,
     },
     fab: {
         position: "absolute",

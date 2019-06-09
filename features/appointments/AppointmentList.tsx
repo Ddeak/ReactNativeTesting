@@ -95,5 +95,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: theme.SECONDARY_COLOR,
+        borderRadius: 5,
     },
 });
