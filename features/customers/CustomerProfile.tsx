@@ -1,12 +1,9 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
 import { withNavigation, NavigationScreenProp } from "react-navigation";
-import { TextInput } from "react-native-paper";
 
-import { theme } from "../../styles";
 import { LoadingScreen } from "../ui/LoadingScreen";
-import { MainButton } from "../ui/MainButton";
 
+import { CustomerProfileView } from "./CustomerProfileView";
 import { useCustomer } from "./hooks";
 import { CustomerService } from "../../db";
 import { Actions } from "./reducer";
@@ -19,14 +16,20 @@ export const CustomerProfile = withNavigation(({ navigation }: IPropType) => {
     const id = navigation.getParam("id");
     const onDone = navigation.getParam("onDone");
     const [state, dispatch] = useCustomer(id);
-    const { firstName, surname, phoneNumber, loading } = state;
+    const { firstName, surname, phoneNumber, loading, image } = state;
 
     if (loading) return <LoadingScreen />;
 
-    const onSubmit = async () => {
+    const onSubmit = () => {
         dispatch(Actions.setLoading(true));
         try {
-            CustomerService.save({ id, firstName, surname, phoneNumber });
+            CustomerService.save({
+                id,
+                firstName,
+                surname,
+                phoneNumber,
+                image,
+            });
 
             if (onDone) onDone();
             navigation.pop();
@@ -37,7 +40,7 @@ export const CustomerProfile = withNavigation(({ navigation }: IPropType) => {
         }
     };
 
-    const onDelete = async () => {
+    const onDelete = () => {
         dispatch(Actions.setLoading(true));
         try {
             CustomerService.delete(id);
@@ -50,67 +53,16 @@ export const CustomerProfile = withNavigation(({ navigation }: IPropType) => {
         }
     };
 
-    return (
-        <View style={styles.container}>
-            <TextInput
-                style={styles.textInput}
-                label="First Name"
-                value={firstName}
-                onChangeText={text => dispatch(Actions.setFirstName(text))}
-            />
-            <TextInput
-                style={styles.textInput}
-                label="Surname"
-                value={surname}
-                onChangeText={text => dispatch(Actions.setSurname(text))}
-            />
-            <TextInput
-                style={styles.textInput}
-                label="Phone Number"
-                value={phoneNumber}
-                onChangeText={text => dispatch(Actions.setPhoneNumber(text))}
-            />
-            <View style={styles.buttonRow}>
-                {id && (
-                    <MainButton
-                        icon="delete"
-                        style={styles.deleteButton}
-                        disabled={loading}
-                        text={"Delete"}
-                        onPress={onDelete}
-                    />
-                )}
-                <MainButton
-                    icon="create"
-                    disabled={loading}
-                    text={id ? "Edit" : "Create"}
-                    onPress={onSubmit}
-                />
-            </View>
-        </View>
-    );
-});
+    const onImageIconPress = () => {};
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "flex-start",
-        alignItems: "center",
-        width: "100%",
-        backgroundColor: theme.SCREEN_BACKGROUND,
-        paddingVertical: 5,
-    },
-    textInput: {
-        marginTop: 10,
-        height: 60,
-        width: "90%",
-    },
-    buttonRow: {
-        width: "100%",
-        flexDirection: "row",
-        justifyContent: "flex-end",
-    },
-    deleteButton: {
-        backgroundColor: theme.DELETE_COLOR,
-    },
+    return (
+        <CustomerProfileView
+            customer={state}
+            dispatch={dispatch}
+            loading={loading}
+            onDelete={onDelete}
+            onSubmit={onSubmit}
+            onImageIconPress={onImageIconPress}
+        />
+    );
 });

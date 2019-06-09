@@ -2,6 +2,8 @@ export interface IStateType {
     firstName: string;
     surname: string;
     phoneNumber: string;
+    notes?: string;
+    image?: string;
     loading: boolean;
 }
 
@@ -25,6 +27,8 @@ export const ActionTypes: IActionTypes = {
     UpdateFirstName: "@Customer/UpdateFirstName",
     UpdateSurname: "@Customer/UpdateSurname",
     UpdatePhoneNumber: "@Customer/UpdatePhoneNumber",
+    UpdateImage: "@Customer/UpdateImage",
+    UpdateNotes: "@Customer/UpdateNotes",
     UpdateLoading: "@Customer/UpdateLoading",
     SetState: "@Customer/SetState",
 };
@@ -41,6 +45,14 @@ export const Actions = {
     setPhoneNumber: (phoneNumber: string) => ({
         type: ActionTypes.UpdatePhoneNumber,
         payload: phoneNumber,
+    }),
+    setImage: (image: string) => ({
+        type: ActionTypes.UpdateImage,
+        payload: image,
+    }),
+    setNotes: (notes: string) => ({
+        type: ActionTypes.UpdateNotes,
+        payload: notes,
     }),
     setLoading: (loading: boolean) => ({
         type: ActionTypes.UpdateLoading,
@@ -60,6 +72,8 @@ export const reducer = (state: IStateType, action: IActionType) => {
             return { ...state, surname: action.payload };
         case ActionTypes.UpdatePhoneNumber:
             return { ...state, phoneNumber: action.payload };
+        case ActionTypes.UpdateImage:
+            return { ...state, image: action.payload };
         case ActionTypes.UpdateLoading:
             return { ...state, loading: action.payload };
         case ActionTypes.SetState:
