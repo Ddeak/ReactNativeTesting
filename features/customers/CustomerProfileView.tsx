@@ -1,8 +1,8 @@
-import React from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
-import { Avatar, TextInput } from "react-native-paper";
+import React, { ReactNodeArray } from "react";
+import { View, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
+import { Avatar, TextInput, Chip } from "react-native-paper";
 
-import { ICustomer } from "../../types";
+import { ICustomer, IPet } from "../../types";
 import { theme } from "../../styles";
 import { MainButton } from "../ui";
 import { Actions } from "./reducer";
@@ -16,6 +16,21 @@ interface IPropsType {
     onImageIconPress: () => void;
 }
 
+const generatePetChips = (pets: IPet[]) => {
+    const rows: ReactNodeArray = [];
+
+    pets.forEach(pet => {
+        const Avat = <Avatar.Text size={24} label={pet.name} />;
+        rows.push(
+            <Chip key={pet.id} avatar={Avat} style={styles.chip}>
+                {pet.name}
+            </Chip>
+        );
+    });
+
+    return rows;
+};
+
 export const CustomerProfileView = (props: IPropsType) => {
     const {
         customer,
@@ -25,9 +40,10 @@ export const CustomerProfileView = (props: IPropsType) => {
         onSubmit,
         onImageIconPress,
     } = props;
-    const { firstName, surname, phoneNumber, id } = customer;
+    const { firstName, surname, phoneNumber, id, pets, notes } = customer;
+
     return (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
             <TouchableOpacity onPress={onImageIconPress}>
                 <Avatar.Text
                     label={`${firstName.charAt(0)}${surname.charAt(0)}`}
@@ -51,6 +67,16 @@ export const CustomerProfileView = (props: IPropsType) => {
                 value={phoneNumber}
                 onChangeText={text => dispatch(Actions.setPhoneNumber(text))}
             />
+            <TextInput
+                style={styles.textInput}
+                multiline
+                label="Notes"
+                value={notes}
+                onChangeText={text => dispatch(Actions.setNotes(text))}
+            />
+            <View style={styles.petsRow}>
+                {pets ? generatePetChips(pets) : null}
+            </View>
             <View style={styles.buttonRow}>
                 {id && (
                     <MainButton
@@ -68,7 +94,7 @@ export const CustomerProfileView = (props: IPropsType) => {
                     onPress={onSubmit}
                 />
             </View>
-        </View>
+        </ScrollView>
     );
 };
 
@@ -83,7 +109,7 @@ const styles = StyleSheet.create({
     },
     textInput: {
         marginTop: 10,
-        height: 60,
+        minHeight: 60,
         width: "90%",
     },
     buttonRow: {
@@ -93,5 +119,17 @@ const styles = StyleSheet.create({
     },
     deleteButton: {
         backgroundColor: theme.DELETE_COLOR,
+    },
+    petsRow: {
+        width: "90%",
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+        flexWrap: "wrap",
+        paddingTop: 10,
+    },
+    chip: {
+        marginTop: 10,
+        marginHorizontal: 5,
     },
 });

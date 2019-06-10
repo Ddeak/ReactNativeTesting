@@ -1,7 +1,10 @@
+import { IPet } from "../../types";
+
 export interface IStateType {
     firstName: string;
     surname: string;
     phoneNumber: string;
+    pets?: IPet[];
     notes?: string;
     image?: string;
     loading: boolean;
@@ -20,6 +23,7 @@ export const initialReducerState = {
     firstName: "",
     surname: "",
     phoneNumber: "",
+    pets: [],
     loading: false,
 };
 
@@ -74,6 +78,8 @@ export const reducer = (state: IStateType, action: IActionType) => {
             return { ...state, phoneNumber: action.payload };
         case ActionTypes.UpdateImage:
             return { ...state, image: action.payload };
+        case ActionTypes.UpdateNotes:
+            return { ...state, notes: action.payload };
         case ActionTypes.UpdateLoading:
             return { ...state, loading: action.payload };
         case ActionTypes.SetState:

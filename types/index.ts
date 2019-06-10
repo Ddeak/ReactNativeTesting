@@ -4,6 +4,7 @@ export interface ICustomer {
     surname: string;
     phoneNumber: string;
     image?: string;
+    notes: string;
     pets?: IPet[];
     createdAt?: Date;
     updatedAt?: Date;
@@ -14,7 +15,7 @@ export interface IPet {
     name: string;
     breed: string;
     owner: ICustomer;
-    notes?: string;
+    notes: string;
     image?: string;
     createdAt?: Date;
     updatedAt?: Date;

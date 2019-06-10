@@ -6,6 +6,7 @@ export class CustomerModel {
     firstName: string = "";
     surname: string = "";
     phoneNumber: string = "";
+    notes: string = "";
     updatedAt: Date;
     createdAt: Date;
 
@@ -14,6 +15,7 @@ export class CustomerModel {
         firstName,
         surname,
         phoneNumber,
+        notes,
         createdAt,
         updatedAt,
     }: ICustomer) {
@@ -21,6 +23,7 @@ export class CustomerModel {
         this.firstName = firstName;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
+        this.notes = notes;
         this.createdAt = createdAt || new Date();
         this.updatedAt = updatedAt || new Date();
     }

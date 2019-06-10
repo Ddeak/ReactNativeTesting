@@ -16,7 +16,7 @@ export const CustomerProfile = withNavigation(({ navigation }: IPropType) => {
     const id = navigation.getParam("id");
     const onDone = navigation.getParam("onDone");
     const [state, dispatch] = useCustomer(id);
-    const { firstName, surname, phoneNumber, loading, image } = state;
+    const { firstName, surname, phoneNumber, loading, notes, image } = state;
 
     if (loading) return <LoadingScreen />;
 
@@ -29,6 +29,7 @@ export const CustomerProfile = withNavigation(({ navigation }: IPropType) => {
                 surname,
                 phoneNumber,
                 image,
+                notes,
             });
 
             if (onDone) onDone();

@@ -19,7 +19,7 @@ export const PetProfile = ({ navigation }: IPropsType) => {
     const id = navigation.getParam("id");
     const onDone = navigation.getParam("onDone");
     const [state, dispatch] = usePet(id);
-    const { name, breed, owner, loading } = state;
+    const { name, breed, owner, notes, loading } = state;
 
     if (loading) return <LoadingScreen />;
 
@@ -39,7 +39,7 @@ export const PetProfile = ({ navigation }: IPropsType) => {
     const onSubmit = async () => {
         dispatch(Actions.setLoading(true));
         try {
-            PetService.save({ id, name, breed, owner });
+            PetService.save({ id, name, breed, owner, notes });
 
             if (onDone) onDone();
             navigation.pop();
