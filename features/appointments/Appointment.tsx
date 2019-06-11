@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { TextInput } from "react-native-paper";
+import { TextInput, Dialog, Paragraph, Button } from "react-native-paper";
 import { NavigationScreenProp } from "react-navigation";
 
 import { ICustomer } from "../../types";
@@ -19,6 +19,7 @@ export const Appointment = ({ navigation }: IPropsType) => {
     const id = navigation.getParam("id");
     const onDone = navigation.getParam("onDone");
     const [state, dispatch] = useAppointment(id);
+    const [showDeleteDialog, setDialog] = useState(false);
     const { date, customer, duration, loading } = state;
 
     if (loading) return <LoadingScreen />;
@@ -28,7 +29,6 @@ export const Appointment = ({ navigation }: IPropsType) => {
         try {
             AppointmentService.delete(id);
             if (onDone) onDone();
-            dispatch(Actions.setLoading(false));
             navigation.pop();
         } catch (err) {
             console.log("Something went wrong deleting an appointment: ", err);
@@ -59,6 +59,8 @@ export const Appointment = ({ navigation }: IPropsType) => {
         });
     };
 
+    const toggleDeleteDialog = () => setDialog(!showDeleteDialog);
+
     return (
         <View style={styles.container}>
             <DatePicker
@@ -87,7 +89,7 @@ export const Appointment = ({ navigation }: IPropsType) => {
                         style={styles.deleteButton}
                         disabled={loading}
                         text={"Delete"}
-                        onPress={onDelete}
+                        onPress={toggleDeleteDialog}
                     />
                 )}
                 <MainButton
@@ -97,6 +99,19 @@ export const Appointment = ({ navigation }: IPropsType) => {
                     onPress={onSubmit}
                 />
             </View>
+
+            <Dialog visible={showDeleteDialog} onDismiss={toggleDeleteDialog}>
+                <Dialog.Title>Warning</Dialog.Title>
+                <Dialog.Content>
+                    <Paragraph>
+                        Are you sure you wish to delete this appointment?
+                    </Paragraph>
+                </Dialog.Content>
+                <Dialog.Actions>
+                    <Button onPress={toggleDeleteDialog}>No</Button>
+                    <Button onPress={onDelete}>Yes</Button>
+                </Dialog.Actions>
+            </Dialog>
         </View>
     );
 };

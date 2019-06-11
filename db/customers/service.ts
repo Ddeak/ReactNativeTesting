@@ -1,6 +1,6 @@
 import Realm, { Results } from "realm";
 import { schema } from "../schema";
-import { ICustomer } from "../../types";
+import { ICustomer, IPet } from "../../types";
 import { CustomerModel } from "./model";
 
 const MAX_CUSTOMERS = 20;
@@ -40,7 +40,21 @@ export const CustomerService = {
 
     delete: (id: string) => {
         realm.write(() => {
-            return realm.delete(realm.objectForPrimaryKey("Customer", id));
+            const customer: ICustomer | undefined = realm.objectForPrimaryKey(
+                "Customer",
+                id
+            );
+
+            if (customer) {
+                realm.delete(customer.pets);
+
+                const appointments = realm
+                    .objects("Appointment")
+                    .filtered(`customer.id = "${customer.id}"`);
+
+                realm.delete(appointments);
+            }
+            return realm.delete(customer);
         });
     },
 };

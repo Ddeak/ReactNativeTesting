@@ -1,5 +1,5 @@
-import React from "react";
-import { withNavigation, NavigationScreenProp } from "react-navigation";
+import React, { useState } from "react";
+import { NavigationScreenProp } from "react-navigation";
 
 import { LoadingScreen } from "../ui/LoadingScreen";
 
@@ -12,13 +12,16 @@ interface IPropType {
     navigation: NavigationScreenProp<any, any>;
 }
 
-export const CustomerProfile = withNavigation(({ navigation }: IPropType) => {
+export const CustomerProfile = ({ navigation }: IPropType) => {
     const id = navigation.getParam("id");
     const onDone = navigation.getParam("onDone");
     const [state, dispatch] = useCustomer(id);
+    const [showDialog, setDialog] = useState(false);
     const { firstName, surname, phoneNumber, loading, notes, image } = state;
 
     if (loading) return <LoadingScreen />;
+
+    const toggleDialog = () => setDialog(!showDialog);
 
     const onSubmit = () => {
         dispatch(Actions.setLoading(true));
@@ -47,9 +50,8 @@ export const CustomerProfile = withNavigation(({ navigation }: IPropType) => {
             CustomerService.delete(id);
             if (onDone) onDone();
             navigation.pop();
-            dispatch(Actions.setLoading(false));
         } catch (err) {
-            console.log("Something went wrong deleting a customer: ");
+            console.log("Something went wrong deleting a customer: ", err);
             dispatch(Actions.setLoading(false));
         }
     };
@@ -64,6 +66,8 @@ export const CustomerProfile = withNavigation(({ navigation }: IPropType) => {
             onDelete={onDelete}
             onSubmit={onSubmit}
             onImageIconPress={onImageIconPress}
+            showDeleteDialog={showDialog}
+            toggleDeleteDialog={toggleDialog}
         />
     );
-});
+};

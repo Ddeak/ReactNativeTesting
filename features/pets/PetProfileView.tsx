@@ -1,83 +1,51 @@
-import React, { ReactNodeArray } from "react";
-import { View, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
-import {
-    Avatar,
-    TextInput,
-    Chip,
-    Dialog,
-    Paragraph,
-    Button,
-} from "react-native-paper";
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import { TextInput, Dialog, Paragraph, Button } from "react-native-paper";
 
-import { ICustomer, IPet } from "../../types";
 import { theme } from "../../styles";
-import { MainButton } from "../ui";
+
+import { CustomerChip, MainButton } from "../ui";
+import { IPet } from "../../types";
 import { Actions } from "./reducer";
 
 interface IPropsType {
-    customer: ICustomer;
+    pet: IPet;
     dispatch: Function;
     loading: boolean;
-    onDelete: () => void;
     onSubmit: () => void;
-    onImageIconPress: () => void;
+    onDelete: () => void;
+    onAddCustomer: () => void;
     showDeleteDialog: boolean;
     toggleDeleteDialog: () => void;
 }
 
-const generatePetChips = (pets: IPet[]) => {
-    const rows: ReactNodeArray = [];
-
-    pets.forEach(pet => {
-        const Avat = <Avatar.Text size={24} label={pet.name} />;
-        rows.push(
-            <Chip key={pet.id} avatar={Avat} style={styles.chip}>
-                {pet.name}
-            </Chip>
-        );
-    });
-
-    return rows;
-};
-
-export const CustomerProfileView = (props: IPropsType) => {
+export const PetProfileView = (props: IPropsType) => {
     const {
-        customer,
+        pet,
         dispatch,
         loading,
-        onDelete,
         onSubmit,
-        onImageIconPress,
+        onDelete,
+        onAddCustomer,
         showDeleteDialog,
         toggleDeleteDialog,
     } = props;
-    const { firstName, surname, phoneNumber, id, pets, notes } = customer;
-
+    const { id, name, breed, notes, owner } = pet;
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-            <TouchableOpacity onPress={onImageIconPress}>
-                <Avatar.Text
-                    label={`${firstName.charAt(0)}${surname.charAt(0)}`}
-                />
-            </TouchableOpacity>
+        <View style={styles.container}>
             <TextInput
                 style={styles.textInput}
-                label="First Name"
-                value={firstName}
-                onChangeText={text => dispatch(Actions.setFirstName(text))}
+                label="Name"
+                value={name}
+                onChangeText={text => dispatch(Actions.setName(text))}
             />
             <TextInput
                 style={styles.textInput}
-                label="Surname"
-                value={surname}
-                onChangeText={text => dispatch(Actions.setSurname(text))}
+                label="Breed"
+                value={breed}
+                onChangeText={text => dispatch(Actions.setBreed(text))}
             />
-            <TextInput
-                style={styles.textInput}
-                label="Phone Number"
-                value={phoneNumber}
-                onChangeText={text => dispatch(Actions.setPhoneNumber(text))}
-            />
+
             <TextInput
                 style={styles.textInput}
                 multiline
@@ -85,9 +53,13 @@ export const CustomerProfileView = (props: IPropsType) => {
                 value={notes}
                 onChangeText={text => dispatch(Actions.setNotes(text))}
             />
-            <View style={styles.petsRow}>
-                {pets ? generatePetChips(pets) : null}
-            </View>
+
+            <CustomerChip
+                customer={owner}
+                onClose={() => dispatch(Actions.setOwner())}
+                onAddCustomer={onAddCustomer}
+            />
+
             <View style={styles.buttonRow}>
                 {id && (
                     <MainButton
@@ -100,7 +72,7 @@ export const CustomerProfileView = (props: IPropsType) => {
                 )}
                 <MainButton
                     icon="create"
-                    disabled={loading}
+                    disabled={loading || !owner}
                     text={id ? "Edit" : "Create"}
                     onPress={onSubmit}
                 />
@@ -110,7 +82,7 @@ export const CustomerProfileView = (props: IPropsType) => {
                 <Dialog.Title>Warning</Dialog.Title>
                 <Dialog.Content>
                     <Paragraph>
-                        Are you sure you wish to delete this customer?
+                        Are you sure you wish to delete this pet?
                     </Paragraph>
                 </Dialog.Content>
                 <Dialog.Actions>
@@ -118,7 +90,7 @@ export const CustomerProfileView = (props: IPropsType) => {
                     <Button onPress={onDelete}>Yes</Button>
                 </Dialog.Actions>
             </Dialog>
-        </ScrollView>
+        </View>
     );
 };
 
@@ -129,11 +101,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         width: "100%",
         backgroundColor: theme.SCREEN_BACKGROUND,
-        paddingVertical: 10,
+        paddingVertical: 5,
     },
     textInput: {
         marginTop: 10,
-        minHeight: 60,
+        height: 60,
         width: "90%",
     },
     buttonRow: {
@@ -143,17 +115,5 @@ const styles = StyleSheet.create({
     },
     deleteButton: {
         backgroundColor: theme.DELETE_COLOR,
-    },
-    petsRow: {
-        width: "90%",
-        flexDirection: "row",
-        justifyContent: "space-evenly",
-        alignItems: "center",
-        flexWrap: "wrap",
-        paddingTop: 10,
-    },
-    chip: {
-        marginTop: 10,
-        marginHorizontal: 5,
     },
 });
