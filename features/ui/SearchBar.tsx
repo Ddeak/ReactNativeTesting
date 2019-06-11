@@ -1,42 +1,24 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TextInput } from "react-native";
+import { Searchbar } from "react-native-paper";
 
-interface Props {
-  onSearchChange?: (text: string) => void;
+interface IProps {
+    onSearchChange?: (text: string) => void;
 }
 
-export const SearchBar = (props: Props) => {
-  const [searchValue, setValue] = useState("");
+export const SearchBar = (props: IProps) => {
+    const [searchValue, setValue] = useState("");
 
-  const onChange = (text: string) => {
-    setValue(text);
-    if (props.onSearchChange) props.onSearchChange(text);
-  };
+    const onChange = (text: string) => {
+        setValue(text);
+        if (props.onSearchChange) props.onSearchChange(text);
+    };
 
-  return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChange}
-        value={searchValue}
-      />
-    </View>
-  );
+    return (
+        <Searchbar
+            style={{ margin: 10 }}
+            placeholder="Search"
+            onChangeText={onChange}
+            value={searchValue}
+        />
+    );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    height: 35,
-    width: "100%",
-    alignItems: "center",
-    marginTop: 10
-  },
-  input: {
-    height: 30,
-    borderColor: "gray",
-    borderWidth: 1,
-    width: "60%",
-    padding: 5,
-    borderRadius: 2
-  }
-});

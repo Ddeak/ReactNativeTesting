@@ -1,39 +1,69 @@
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import React from "react";
 import { withNavigation, NavigationScreenProp } from "react-navigation";
-import { ActivityIndicator } from "react-native-paper";
 
-import { theme } from "../../styles";
+import { LoadingScreen } from "../ui/LoadingScreen";
+
+import { CustomerProfileView } from "./CustomerProfileView";
 import { useCustomer } from "./hooks";
+import { CustomerService } from "../../db";
+import { Actions } from "./reducer";
 
-interface PropType {
+interface IPropType {
     navigation: NavigationScreenProp<any, any>;
 }
 
-export const CustomerProfile = withNavigation((props: PropType) => {
-    const customer = useCustomer(props.navigation.getParam("id"));
+export const CustomerProfile = withNavigation(({ navigation }: IPropType) => {
+    const id = navigation.getParam("id");
+    const onDone = navigation.getParam("onDone");
+    const [state, dispatch] = useCustomer(id);
+    const { firstName, surname, phoneNumber, loading, notes, image } = state;
 
-    if (customer) {
-        return (
-            <View style={styles.container}>
-                <Text>{customer.firstName}</Text>
-            </View>
-        );
-    }
+    if (loading) return <LoadingScreen />;
+
+    const onSubmit = () => {
+        dispatch(Actions.setLoading(true));
+        try {
+            CustomerService.save({
+                id,
+                firstName,
+                surname,
+                phoneNumber,
+                image,
+                notes,
+            });
+
+            if (onDone) onDone();
+            navigation.pop();
+            dispatch(Actions.setLoading(false));
+        } catch (err) {
+            console.log("Something went wrong creating a customer: ", err);
+            dispatch(Actions.setLoading(false));
+        }
+    };
+
+    const onDelete = () => {
+        dispatch(Actions.setLoading(true));
+        try {
+            CustomerService.delete(id);
+            if (onDone) onDone();
+            navigation.pop();
+            dispatch(Actions.setLoading(false));
+        } catch (err) {
+            console.log("Something went wrong deleting a customer: ");
+            dispatch(Actions.setLoading(false));
+        }
+    };
+
+    const onImageIconPress = () => {};
 
     return (
-        <View style={styles.container}>
-            <ActivityIndicator animating={true} />
-        </View>
+        <CustomerProfileView
+            customer={state}
+            dispatch={dispatch}
+            loading={loading}
+            onDelete={onDelete}
+            onSubmit={onSubmit}
+            onImageIconPress={onImageIconPress}
+        />
     );
-});
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "flex-start",
-        alignItems: "center",
-        width: "100%",
-        backgroundColor: theme.SCREEN_BACKGROUND,
-    },
 });

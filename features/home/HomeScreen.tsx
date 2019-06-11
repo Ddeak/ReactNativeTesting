@@ -1,34 +1,48 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import { Title } from "react-native-paper";
 
 import { NavigationScreenProp } from "react-navigation";
 
 import { theme } from "../../styles";
-import { MainButton } from "../ui/MainButton";
+import { HomeButton } from "../ui";
 
-interface Props {
+interface IProps {
     navigation: NavigationScreenProp<any, any>;
 }
 
-export class HomeScreen extends React.Component<Props> {
-    render() {
+export class HomeScreen extends React.Component<IProps> {
+    navigate = (route: string) => {
+        this.props.navigation.navigate(route);
+    };
+    public render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.text}>Odin's Hall</Text>
-                <MainButton
-                    text="Appointments"
-                    onPress={() =>
-                        this.props.navigation.navigate("Appointments")
-                    }
-                />
-                <MainButton
-                    text="Customers"
-                    onPress={() => this.props.navigation.navigate("Customers")}
-                />
-                <MainButton
-                    text="Pets"
-                    onPress={() => this.props.navigation.navigate("Pets")}
-                />
+                <Title style={styles.text}>Odin's Hall of Grooming</Title>
+                <View style={styles.buttonRow}>
+                    <HomeButton
+                        icon="event"
+                        text="Appointments"
+                        onPress={() => this.navigate("Appointments")}
+                    />
+                    <HomeButton
+                        icon="account-box"
+                        text="Customers"
+                        onPress={() => this.navigate("Customers")}
+                    />
+                </View>
+                <View style={styles.buttonRow}>
+                    <HomeButton
+                        icon="pets"
+                        text="Pets"
+                        onPress={() => this.navigate("Pets")}
+                    />
+                    <HomeButton
+                        icon="settings"
+                        text="Settings"
+                        onPress={() => this.navigate("Settings")}
+                    />
+                </View>
             </View>
         );
     }
@@ -43,5 +57,11 @@ const styles = StyleSheet.create({
     },
     text: {
         color: theme.SECONDARY_COLOR,
+    },
+    buttonRow: {
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+        flexDirection: "row",
     },
 });
