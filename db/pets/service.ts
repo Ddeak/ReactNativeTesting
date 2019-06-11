@@ -3,19 +3,25 @@ import { schema } from "../schema";
 import { IPet, ICustomer } from "../../types";
 import { PetModel } from "./model";
 
+const MAX_PETS = 10;
+
 const realm = new Realm({
     schema: schema,
 });
 
 export const PetService = {
     findAll: (): Results<IPet> => {
-        return realm.objects("Pet");
+        // @ts-ignore
+        return realm.objects("Pet").slice(0, MAX_PETS);
     },
 
     findFiltered: (filter: string): Results<IPet> => {
         const filterString = `name CONTAINS[c] "${filter}" OR breed CONTAINS[c] "${filter}"`;
         // @ts-ignore
-        return realm.objects("Pet").filtered(filterString);
+        return realm
+            .objects("Pet")
+            .filtered(filterString)
+            .slice(0, MAX_PETS);
     },
 
     findById: (id: string): IPet | undefined => {

@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
 } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
-import { FAB } from "react-native-paper";
+import { FAB, Avatar } from "react-native-paper";
 
 import { theme } from "../../styles";
 
@@ -29,7 +29,8 @@ const renderPetRow = (
 ) => {
     return (
         <TouchableOpacity style={styles.row} onPress={() => onPress(item.id)}>
-            <Text>{item.name}</Text>
+            <Avatar.Text size={24} label={item.name} />
+            <Text style={{ marginLeft: 10 }}>{item.name}</Text>
         </TouchableOpacity>
     );
 };
@@ -74,12 +75,15 @@ const styles = StyleSheet.create({
     },
     row: {
         flex: 1,
-        height: 30,
+        minHeight: 35,
         width: 250,
         margin: 5,
+        flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         backgroundColor: theme.SECONDARY_COLOR,
+        borderRadius: 5,
+        paddingHorizontal: 10,
     },
     fab: {
         position: "absolute",

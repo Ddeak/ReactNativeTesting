@@ -73,6 +73,14 @@ export const PetProfile = ({ navigation }: IPropsType) => {
                 onChangeText={text => dispatch(Actions.setBreed(text))}
             />
 
+            <TextInput
+                style={styles.textInput}
+                multiline
+                label="Notes"
+                value={notes}
+                onChangeText={text => dispatch(Actions.setNotes(text))}
+            />
+
             <CustomerChip
                 customer={owner}
                 onClose={() => dispatch(Actions.setOwner())}

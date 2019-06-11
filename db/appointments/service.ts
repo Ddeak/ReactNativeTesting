@@ -3,6 +3,8 @@ import { schema } from "../schema";
 import { IAppointment } from "../../types";
 import { AppointmentModel } from "./model";
 
+const MAX_APPOINTMENTS = 10;
+
 const realm = new Realm({
     schema: schema,
 });
@@ -18,7 +20,7 @@ export const AppointmentService = {
             .objects("Appointment")
             .filtered("date >= $0 AND date <= $1", currentDay, nextDay);
         // @ts-ignore
-        return dates.sorted("date");
+        return dates.sorted("date").slice(0, MAX_APPOINTMENTS);
     },
 
     findById: (id: string): IAppointment | undefined => {

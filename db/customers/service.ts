@@ -3,19 +3,25 @@ import { schema } from "../schema";
 import { ICustomer } from "../../types";
 import { CustomerModel } from "./model";
 
+const MAX_CUSTOMERS = 20;
+
 const realm = new Realm({
     schema: schema,
 });
 
 export const CustomerService = {
     findAll: (): Results<ICustomer> => {
-        return realm.objects("Customer");
+        // @ts-ignore
+        return realm.objects("Customer").slice(0, MAX_CUSTOMERS);
     },
 
     findFiltered: (filter: string): Results<ICustomer> => {
         const filterString = `firstName CONTAINS[c] "${filter}" OR surname CONTAINS[c] "${filter}" OR phoneNumber CONTAINS "${filter}"`;
         // @ts-ignore
-        return realm.objects("Customer").filtered(filterString);
+        return realm
+            .objects("Customer")
+            .filtered(filterString)
+            .slice(0, MAX_CUSTOMERS);
     },
 
     findById: (id: string): ICustomer | undefined => {

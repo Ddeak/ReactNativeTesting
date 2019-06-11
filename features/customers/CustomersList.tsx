@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     },
     row: {
         flex: 1,
-        height: 30,
+        height: 35,
         width: 250,
         margin: 5,
         alignItems: "center",
