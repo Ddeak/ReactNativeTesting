@@ -14,7 +14,6 @@ interface IPropType {
 
 export const CustomerProfile = ({ navigation }: IPropType) => {
     const id = navigation.getParam("id");
-    const onDone = navigation.getParam("onDone");
     const [state, dispatch] = useCustomer(id);
     const [showDialog, setDialog] = useState(false);
     const { firstName, surname, phoneNumber, loading, notes, image } = state;
@@ -35,7 +34,6 @@ export const CustomerProfile = ({ navigation }: IPropType) => {
                 notes,
             });
 
-            if (onDone) onDone();
             navigation.pop();
             dispatch(Actions.setLoading(false));
         } catch (err) {
@@ -48,7 +46,6 @@ export const CustomerProfile = ({ navigation }: IPropType) => {
         dispatch(Actions.setLoading(true));
         try {
             CustomerService.delete(id);
-            if (onDone) onDone();
             navigation.pop();
         } catch (err) {
             console.log("Something went wrong deleting a customer: ", err);

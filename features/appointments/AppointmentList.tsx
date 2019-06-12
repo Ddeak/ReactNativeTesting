@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import { NavigationScreenProp } from "react-navigation";
+import { NavigationScreenProp, NavigationEvents } from "react-navigation";
 import { FAB, Text } from "react-native-paper";
 import moment from "moment";
 
@@ -42,12 +42,8 @@ export const AppointmentList = ({ navigation }: IListProps) => {
     const [date, setDate] = useState(new Date());
     const appointments = useAppointments(refresh, date);
 
-    const onDone = () => {
-        setRefresh(!refresh);
-    };
-
     const onRowPress = (id?: string) => {
-        navigation.push("Appointment", { id, onDone });
+        navigation.push("Appointment", { id });
     };
 
     const toggleDate = (days: number | Date) => {
@@ -62,6 +58,7 @@ export const AppointmentList = ({ navigation }: IListProps) => {
 
     return (
         <View style={styles.container}>
+            <NavigationEvents onWillFocus={() => setRefresh(!refresh)} />
             <ListHeader date={date} toggleDate={toggleDate} />
             <FlatList
                 data={appointments}

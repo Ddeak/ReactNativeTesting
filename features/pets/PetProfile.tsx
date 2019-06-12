@@ -15,7 +15,6 @@ interface IPropsType {
 
 export const PetProfile = ({ navigation }: IPropsType) => {
     const id = navigation.getParam("id");
-    const onDone = navigation.getParam("onDone");
     const [state, dispatch] = usePet(id);
     const [showDialog, setDialog] = useState(false);
     const { name, breed, owner, notes, loading } = state;
@@ -26,7 +25,6 @@ export const PetProfile = ({ navigation }: IPropsType) => {
         dispatch(Actions.setLoading(true));
         try {
             PetService.delete(id);
-            if (onDone) onDone();
             navigation.pop();
         } catch (err) {
             console.log("Something went wrong deleting a pet: ", err);
@@ -39,7 +37,6 @@ export const PetProfile = ({ navigation }: IPropsType) => {
         try {
             PetService.save({ id, name, breed, owner, notes });
 
-            if (onDone) onDone();
             navigation.pop();
             dispatch(Actions.setLoading(false));
         } catch (err) {

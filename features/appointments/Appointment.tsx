@@ -17,7 +17,6 @@ interface IPropsType {
 
 export const Appointment = ({ navigation }: IPropsType) => {
     const id = navigation.getParam("id");
-    const onDone = navigation.getParam("onDone");
     const [state, dispatch] = useAppointment(id);
     const [showDeleteDialog, setDialog] = useState(false);
     const { date, customer, duration, loading } = state;
@@ -28,7 +27,6 @@ export const Appointment = ({ navigation }: IPropsType) => {
         dispatch(Actions.setLoading(true));
         try {
             AppointmentService.delete(id);
-            if (onDone) onDone();
             navigation.pop();
         } catch (err) {
             console.log("Something went wrong deleting an appointment: ", err);
@@ -41,7 +39,6 @@ export const Appointment = ({ navigation }: IPropsType) => {
         try {
             AppointmentService.save({ id, date, customer, duration });
 
-            if (onDone) onDone();
             dispatch(Actions.setLoading(false));
             navigation.pop();
         } catch (err) {

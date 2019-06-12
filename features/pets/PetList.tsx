@@ -6,7 +6,7 @@ import {
     Text,
     TouchableOpacity,
 } from "react-native";
-import { NavigationScreenProp } from "react-navigation";
+import { NavigationScreenProp, NavigationEvents } from "react-navigation";
 import { FAB, Avatar } from "react-native-paper";
 
 import { theme } from "../../styles";
@@ -44,16 +44,13 @@ export const PetList = ({ navigation }: IListProps) => {
         setFilter(text);
     };
 
-    const onDone = () => {
-        setRefresh(!refresh);
-    };
-
     const onRowPress = (id?: string) => {
-        navigation.push("PetProfile", { id, onDone });
+        navigation.push("PetProfile", { id });
     };
 
     return (
         <View style={styles.container}>
+            <NavigationEvents onWillFocus={() => setRefresh(!refresh)} />
             <SearchBar onSearchChange={onSearchChange} />
             <FlatList
                 data={pets}
