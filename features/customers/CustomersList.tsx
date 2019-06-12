@@ -48,7 +48,10 @@ export const CustomersList = ({ navigation }: IListProps) => {
     return (
         <View style={styles.container}>
             <NavigationEvents onWillFocus={() => setRefresh(!refresh)} />
-            <SearchBar onSearchChange={onSearchChange} />
+            <SearchBar
+                onSearchChange={onSearchChange}
+                filterActive={!!filter}
+            />
             <FlatList
                 data={customers}
                 renderItem={item =>

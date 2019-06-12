@@ -51,7 +51,10 @@ export const PetList = ({ navigation }: IListProps) => {
     return (
         <View style={styles.container}>
             <NavigationEvents onWillFocus={() => setRefresh(!refresh)} />
-            <SearchBar onSearchChange={onSearchChange} />
+            <SearchBar
+                onSearchChange={onSearchChange}
+                filterActive={!!filter}
+            />
             <FlatList
                 data={pets}
                 renderItem={item => renderPetRow(item, onRowPress)}

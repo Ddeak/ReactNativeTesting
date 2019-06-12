@@ -8,6 +8,7 @@ export const theme = {
     SECONDARY_COLOR: "rgb(252, 249, 255)",
     DELETE_COLOR: "rgb(237, 56, 132)",
     SCREEN_BACKGROUND: "rgb(56, 56, 56)",
+    ACCENT_COLOR: "rgb(3, 218, 196)",
 };
 
 export const materialTheme = {
@@ -16,5 +17,8 @@ export const materialTheme = {
         ...DefaultTheme.colors,
         primary: theme.PRIMARY_COLOR,
         secondary: theme.SECONDARY_COLOR,
+        accent: theme.ACCENT_COLOR,
     },
 };
+
+console.log("mat", materialTheme.colors);
