@@ -20,5 +20,3 @@ export const materialTheme = {
         accent: theme.ACCENT_COLOR,
     },
 };
-
-console.log("mat", materialTheme.colors);
