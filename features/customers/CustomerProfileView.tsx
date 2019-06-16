@@ -12,7 +12,7 @@ import {
 import { ICustomer, IPet } from "../../types";
 import { theme } from "../../styles";
 import { MainButton } from "../ui";
-import { Actions } from "./reducer";
+import { Actions, CustomerErrors } from "./reducer";
 
 interface IPropsType {
     customer: ICustomer;
@@ -23,6 +23,7 @@ interface IPropsType {
     onImageIconPress: () => void;
     showDeleteDialog: boolean;
     toggleDeleteDialog: () => void;
+    errors: CustomerErrors;
 }
 
 const generatePetChips = (pets: IPet[]) => {
@@ -50,6 +51,7 @@ export const CustomerProfileView = (props: IPropsType) => {
         onImageIconPress,
         showDeleteDialog,
         toggleDeleteDialog,
+        errors,
     } = props;
     const { firstName, surname, phoneNumber, id, pets, notes } = customer;
 
@@ -64,18 +66,22 @@ export const CustomerProfileView = (props: IPropsType) => {
                 style={styles.textInput}
                 label="First Name"
                 value={firstName}
+                error={!!errors.firstName}
                 onChangeText={text => dispatch(Actions.setFirstName(text))}
             />
             <TextInput
                 style={styles.textInput}
                 label="Surname"
                 value={surname}
+                error={!!errors.surname}
                 onChangeText={text => dispatch(Actions.setSurname(text))}
             />
             <TextInput
                 style={styles.textInput}
                 label="Phone Number"
+                keyboardType="phone-pad"
                 value={phoneNumber}
+                error={!!errors.phoneNumber}
                 onChangeText={text => dispatch(Actions.setPhoneNumber(text))}
             />
             <TextInput

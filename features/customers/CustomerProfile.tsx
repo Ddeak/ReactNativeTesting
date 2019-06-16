@@ -7,6 +7,7 @@ import { CustomerProfileView } from "./CustomerProfileView";
 import { useCustomer } from "./hooks";
 import { CustomerService } from "../../db";
 import { Actions } from "./reducer";
+import { validate } from "./validateProfile";
 
 interface IPropType {
     navigation: NavigationScreenProp<any, any>;
@@ -16,15 +17,30 @@ export const CustomerProfile = ({ navigation }: IPropType) => {
     const id = navigation.getParam("id");
     const [state, dispatch] = useCustomer(id);
     const [showDialog, setDialog] = useState(false);
-    const { firstName, surname, phoneNumber, loading, notes, image } = state;
+    const {
+        firstName,
+        surname,
+        phoneNumber,
+        loading,
+        notes,
+        image,
+        errors,
+    } = state;
 
     if (loading) return <LoadingScreen />;
 
     const toggleDialog = () => setDialog(!showDialog);
 
     const onSubmit = () => {
-        dispatch(Actions.setLoading(true));
         try {
+            let errs = validate(state);
+            if (errs) {
+                dispatch(Actions.setErrors(errs));
+                return;
+            }
+
+            dispatch(Actions.setLoading(true));
+
             CustomerService.save({
                 id,
                 firstName,
@@ -35,7 +51,6 @@ export const CustomerProfile = ({ navigation }: IPropType) => {
             });
 
             navigation.pop();
-            dispatch(Actions.setLoading(false));
         } catch (err) {
             console.log("Something went wrong creating a customer: ", err);
             dispatch(Actions.setLoading(false));
@@ -65,6 +80,7 @@ export const CustomerProfile = ({ navigation }: IPropType) => {
             onImageIconPress={onImageIconPress}
             showDeleteDialog={showDialog}
             toggleDeleteDialog={toggleDialog}
+            errors={errors}
         />
     );
 };

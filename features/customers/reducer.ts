@@ -1,5 +1,11 @@
 import { IPet } from "../../types";
 
+export interface CustomerErrors {
+    firstName?: string;
+    surname?: string;
+    phoneNumber?: string;
+}
+
 export interface IStateType {
     firstName: string;
     surname: string;
@@ -8,6 +14,7 @@ export interface IStateType {
     notes?: string;
     image?: string;
     loading: boolean;
+    errors?: CustomerErrors;
 }
 
 interface IActionType {
@@ -25,6 +32,7 @@ export const initialReducerState = {
     phoneNumber: "",
     pets: [],
     loading: false,
+    errors: {},
 };
 
 export const ActionTypes: IActionTypes = {
@@ -33,6 +41,7 @@ export const ActionTypes: IActionTypes = {
     UpdatePhoneNumber: "@Customer/UpdatePhoneNumber",
     UpdateImage: "@Customer/UpdateImage",
     UpdateNotes: "@Customer/UpdateNotes",
+    UpdateErrors: "@Customer/UpdateErrors",
     UpdateLoading: "@Customer/UpdateLoading",
     SetState: "@Customer/SetState",
 };
@@ -62,6 +71,10 @@ export const Actions = {
         type: ActionTypes.UpdateLoading,
         payload: loading,
     }),
+    setErrors: (errors: CustomerErrors) => ({
+        type: ActionTypes.UpdateErrors,
+        payload: errors,
+    }),
     setState: (state: IStateType) => ({
         type: ActionTypes.SetState,
         payload: state,
@@ -71,19 +84,33 @@ export const Actions = {
 export const reducer = (state: IStateType, action: IActionType) => {
     switch (action.type) {
         case ActionTypes.UpdateFirstName:
-            return { ...state, firstName: action.payload };
+            return {
+                ...state,
+                firstName: action.payload,
+                errors: { ...state.errors, firstName: undefined },
+            };
         case ActionTypes.UpdateSurname:
-            return { ...state, surname: action.payload };
+            return {
+                ...state,
+                surname: action.payload,
+                errors: { ...state.errors, surname: undefined },
+            };
         case ActionTypes.UpdatePhoneNumber:
-            return { ...state, phoneNumber: action.payload };
+            return {
+                ...state,
+                phoneNumber: action.payload,
+                errors: { ...state.errors, phoneNumber: undefined },
+            };
         case ActionTypes.UpdateImage:
             return { ...state, image: action.payload };
         case ActionTypes.UpdateNotes:
             return { ...state, notes: action.payload };
+        case ActionTypes.UpdateErrors:
+            return { ...state, errors: action.payload };
         case ActionTypes.UpdateLoading:
             return { ...state, loading: action.payload };
         case ActionTypes.SetState:
-            return { ...action.payload };
+            return { ...state, ...action.payload };
         default:
             throw new Error();
     }
