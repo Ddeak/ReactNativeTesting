@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { ScrollView, View, StyleSheet } from "react-native";
 import { TextInput, Dialog, Paragraph, Button } from "react-native-paper";
 
 import { theme } from "../../styles";
@@ -32,33 +32,35 @@ export const PetProfileView = (props: IPropsType) => {
     } = props;
     const { id, name, breed, notes, owner } = pet;
     return (
-        <View style={styles.container}>
-            <TextInput
-                style={styles.textInput}
-                label="Name"
-                value={name}
-                onChangeText={text => dispatch(Actions.setName(text))}
-            />
-            <TextInput
-                style={styles.textInput}
-                label="Breed"
-                value={breed}
-                onChangeText={text => dispatch(Actions.setBreed(text))}
-            />
+        <ScrollView contentContainerStyle={styles.container}>
+            <View style={styles.content}>
+                <TextInput
+                    style={styles.textInput}
+                    label="Name"
+                    value={name}
+                    onChangeText={text => dispatch(Actions.setName(text))}
+                />
+                <TextInput
+                    style={styles.textInput}
+                    label="Breed"
+                    value={breed}
+                    onChangeText={text => dispatch(Actions.setBreed(text))}
+                />
 
-            <TextInput
-                style={styles.textInput}
-                multiline
-                label="Notes"
-                value={notes}
-                onChangeText={text => dispatch(Actions.setNotes(text))}
-            />
+                <TextInput
+                    style={styles.textInput}
+                    multiline
+                    label="Notes"
+                    value={notes}
+                    onChangeText={text => dispatch(Actions.setNotes(text))}
+                />
 
-            <CustomerChip
-                customer={owner}
-                onClose={() => dispatch(Actions.setOwner())}
-                onAddCustomer={onAddCustomer}
-            />
+                <CustomerChip
+                    customer={owner}
+                    onClose={() => dispatch(Actions.setOwner())}
+                    onAddCustomer={onAddCustomer}
+                />
+            </View>
 
             <View style={styles.buttonRow}>
                 {id && (
@@ -90,22 +92,27 @@ export const PetProfileView = (props: IPropsType) => {
                     <Button onPress={onDelete}>Yes</Button>
                 </Dialog.Actions>
             </Dialog>
-        </View>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "flex-start",
+        justifyContent: "space-between",
         alignItems: "center",
         width: "100%",
         backgroundColor: theme.SCREEN_BACKGROUND,
         paddingVertical: 5,
     },
+    content: {
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "flex-start",
+    },
     textInput: {
         marginTop: 10,
-        height: 60,
+        minHeight: 60,
         width: "90%",
     },
     buttonRow: {

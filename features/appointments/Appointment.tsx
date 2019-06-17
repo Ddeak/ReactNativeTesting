@@ -61,31 +61,33 @@ export const Appointment = ({ navigation }: IPropsType) => {
 
     return (
         <View style={styles.container}>
-            <DatePicker
-                date={date}
-                handleDatePicked={date => dispatch(Actions.setDate(date))}
-            />
-            <TextInput
-                style={styles.textInput}
-                label="Duration (Hours)"
-                value={`${duration}`}
-                onChangeText={text => {
-                    let newDuration = Number.parseInt(text);
-                    if (Number.isNaN(newDuration)) newDuration = 0;
-                    dispatch(Actions.setDuration(newDuration));
-                }}
-            />
-            {id && (
-                <AppointmentStatusSelect
-                    activeStatus={status}
-                    onPress={status => dispatch(Actions.setStatus(status))}
+            <View style={styles.content}>
+                <DatePicker
+                    date={date}
+                    handleDatePicked={date => dispatch(Actions.setDate(date))}
                 />
-            )}
-            <CustomerChip
-                customer={customer}
-                onClose={() => dispatch(Actions.setCustomer())}
-                onAddCustomer={onAddCustomer}
-            />
+                <TextInput
+                    style={styles.textInput}
+                    label="Duration (Hours)"
+                    value={`${duration}`}
+                    onChangeText={text => {
+                        let newDuration = Number.parseInt(text);
+                        if (Number.isNaN(newDuration)) newDuration = 0;
+                        dispatch(Actions.setDuration(newDuration));
+                    }}
+                />
+                {id && (
+                    <AppointmentStatusSelect
+                        activeStatus={status}
+                        onPress={status => dispatch(Actions.setStatus(status))}
+                    />
+                )}
+                <CustomerChip
+                    customer={customer}
+                    onClose={() => dispatch(Actions.setCustomer())}
+                    onAddCustomer={onAddCustomer}
+                />
+            </View>
             <View style={styles.buttonRow}>
                 {id && (
                     <MainButton
@@ -123,11 +125,15 @@ export const Appointment = ({ navigation }: IPropsType) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "flex-start",
+        justifyContent: "space-between",
         alignItems: "center",
-        width: "100%",
         backgroundColor: theme.SCREEN_BACKGROUND,
         paddingVertical: 5,
+    },
+    content: {
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "flex-start",
     },
     textInput: {
         marginTop: 10,

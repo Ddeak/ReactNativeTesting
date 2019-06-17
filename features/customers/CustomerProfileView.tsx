@@ -57,42 +57,46 @@ export const CustomerProfileView = (props: IPropsType) => {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <TouchableOpacity onPress={onImageIconPress}>
-                <Avatar.Text
-                    label={`${firstName.charAt(0)}${surname.charAt(0)}`}
+            <View style={styles.content}>
+                <TouchableOpacity onPress={onImageIconPress}>
+                    <Avatar.Text
+                        label={`${firstName.charAt(0)}${surname.charAt(0)}`}
+                    />
+                </TouchableOpacity>
+                <TextInput
+                    style={styles.textInput}
+                    label="First Name"
+                    value={firstName}
+                    error={!!errors.firstName}
+                    onChangeText={text => dispatch(Actions.setFirstName(text))}
                 />
-            </TouchableOpacity>
-            <TextInput
-                style={styles.textInput}
-                label="First Name"
-                value={firstName}
-                error={!!errors.firstName}
-                onChangeText={text => dispatch(Actions.setFirstName(text))}
-            />
-            <TextInput
-                style={styles.textInput}
-                label="Surname"
-                value={surname}
-                error={!!errors.surname}
-                onChangeText={text => dispatch(Actions.setSurname(text))}
-            />
-            <TextInput
-                style={styles.textInput}
-                label="Phone Number"
-                keyboardType="phone-pad"
-                value={phoneNumber}
-                error={!!errors.phoneNumber}
-                onChangeText={text => dispatch(Actions.setPhoneNumber(text))}
-            />
-            <TextInput
-                style={styles.textInput}
-                multiline
-                label="Notes"
-                value={notes}
-                onChangeText={text => dispatch(Actions.setNotes(text))}
-            />
-            <View style={styles.petsRow}>
-                {pets ? generatePetChips(pets) : null}
+                <TextInput
+                    style={styles.textInput}
+                    label="Surname"
+                    value={surname}
+                    error={!!errors.surname}
+                    onChangeText={text => dispatch(Actions.setSurname(text))}
+                />
+                <TextInput
+                    style={styles.textInput}
+                    label="Phone Number"
+                    keyboardType="phone-pad"
+                    value={phoneNumber}
+                    error={!!errors.phoneNumber}
+                    onChangeText={text =>
+                        dispatch(Actions.setPhoneNumber(text))
+                    }
+                />
+                <TextInput
+                    style={styles.textInput}
+                    multiline
+                    label="Notes"
+                    value={notes}
+                    onChangeText={text => dispatch(Actions.setNotes(text))}
+                />
+                <View style={styles.petsRow}>
+                    {pets ? generatePetChips(pets) : null}
+                </View>
             </View>
             <View style={styles.buttonRow}>
                 {id && (
@@ -131,11 +135,16 @@ export const CustomerProfileView = (props: IPropsType) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "flex-start",
+        justifyContent: "space-between",
         alignItems: "center",
         width: "100%",
         backgroundColor: theme.SCREEN_BACKGROUND,
         paddingVertical: 10,
+    },
+    content: {
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "flex-start",
     },
     textInput: {
         marginTop: 10,
