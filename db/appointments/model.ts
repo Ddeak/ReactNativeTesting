@@ -1,11 +1,11 @@
 import uuid from "react-native-uuid";
-import { ICustomer } from "../../types";
+import { ICustomer, AppointmentStatus } from "../../types";
 
 interface IModelType {
     id?: string;
     customer: ICustomer;
     date: Date;
-    status: string;
+    status?: AppointmentStatus;
     duration: number;
     createdAt?: Date;
     updatedAt?: Date;
@@ -15,7 +15,7 @@ export class AppointmentModel {
     id: string;
     customer: ICustomer;
     date: Date;
-    status: string = "";
+    status: AppointmentStatus;
     duration: number = 0;
     updatedAt: Date;
     createdAt: Date;
@@ -33,7 +33,7 @@ export class AppointmentModel {
         this.customer = customer;
         this.date = date;
         this.duration = duration;
-        this.status = status || "";
+        this.status = status || AppointmentStatus.Normal;
         this.createdAt = createdAt || new Date();
         this.updatedAt = updatedAt || new Date();
     }

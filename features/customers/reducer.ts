@@ -4,6 +4,7 @@ export interface CustomerErrors {
     firstName?: string;
     surname?: string;
     phoneNumber?: string;
+    hasErrors: boolean;
 }
 
 export interface IStateType {
@@ -32,7 +33,7 @@ export const initialReducerState = {
     phoneNumber: "",
     pets: [],
     loading: false,
-    errors: {},
+    errors: { hasErrors: false },
 };
 
 export const ActionTypes: IActionTypes = {

@@ -21,10 +21,18 @@ export interface IPet {
     updatedAt?: Date;
 }
 
+export enum AppointmentStatus {
+    Normal = "NORMAL",
+    Canceled = "CANCELED",
+    Late = "LATE",
+    NOSHOW = "NOSHOW",
+}
+
 export interface IAppointment {
     id?: string;
     date: Date;
     customer: ICustomer;
+    status: AppointmentStatus;
     duration: number;
     createdAt?: Date;
     updatedAt?: Date;

@@ -3,13 +3,14 @@ import { View, StyleSheet } from "react-native";
 import { TextInput, Dialog, Paragraph, Button } from "react-native-paper";
 import { NavigationScreenProp } from "react-navigation";
 
-import { ICustomer } from "../../types";
+import { ICustomer, AppointmentStatus } from "../../types";
 import { theme } from "../../styles";
 import { LoadingScreen, DatePicker, CustomerChip, MainButton } from "../ui";
 
 import { useAppointment } from "./hooks";
 import { Actions } from "./reducer";
 import { AppointmentService } from "../../db";
+import { AppointmentStatusSelect } from "./AppointmentStatusSelect";
 
 interface IPropsType {
     navigation: NavigationScreenProp<any, any>;
@@ -19,7 +20,7 @@ export const Appointment = ({ navigation }: IPropsType) => {
     const id = navigation.getParam("id");
     const [state, dispatch] = useAppointment(id);
     const [showDeleteDialog, setDialog] = useState(false);
-    const { date, customer, duration, loading } = state;
+    const { date, customer, duration, status, loading } = state;
 
     if (loading) return <LoadingScreen />;
 
@@ -37,7 +38,7 @@ export const Appointment = ({ navigation }: IPropsType) => {
     const onSubmit = () => {
         dispatch(Actions.setLoading(true));
         try {
-            AppointmentService.save({ id, date, customer, duration });
+            AppointmentService.save({ id, date, customer, duration, status });
 
             dispatch(Actions.setLoading(false));
             navigation.pop();
@@ -74,6 +75,12 @@ export const Appointment = ({ navigation }: IPropsType) => {
                     dispatch(Actions.setDuration(newDuration));
                 }}
             />
+            {id && (
+                <AppointmentStatusSelect
+                    activeStatus={status}
+                    onPress={status => dispatch(Actions.setStatus(status))}
+                />
+            )}
             <CustomerChip
                 customer={customer}
                 onClose={() => dispatch(Actions.setCustomer())}

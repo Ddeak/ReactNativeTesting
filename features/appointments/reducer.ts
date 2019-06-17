@@ -1,10 +1,11 @@
 import moment from "moment";
-import { ICustomer } from "../../types";
+import { ICustomer, AppointmentStatus } from "../../types";
 
 export interface IStateType {
     date: Date;
     duration: number;
     customer: ICustomer | undefined;
+    status: AppointmentStatus;
     loading: boolean;
 }
 
@@ -33,6 +34,7 @@ export const ActionTypes: IActionTypes = {
     UpdateDate: "@Appointment/UpdateDate",
     UpdateDuration: "@Appointment/UpdateDuration",
     UpdateCustomer: "@Appointment/UpdateCustomer",
+    UpdateStatus: "@Appointment/UpdateStatus",
     UpdateLoading: "@Appointment/UpdateLoading",
     SetState: "@Appointment/SetState",
 };
@@ -49,6 +51,10 @@ export const Actions = {
     setCustomer: (customer?: ICustomer | undefined) => ({
         type: ActionTypes.UpdateCustomer,
         payload: customer,
+    }),
+    setStatus: (status: AppointmentStatus) => ({
+        type: ActionTypes.UpdateStatus,
+        payload: status,
     }),
     setLoading: (loading: boolean) => ({
         type: ActionTypes.UpdateLoading,
@@ -70,6 +76,8 @@ export const reducer = (state: IStateType, action: IActionType) => {
             return { ...state, duration: payload };
         case ActionTypes.UpdateCustomer:
             return { ...state, customer: payload };
+        case ActionTypes.UpdateStatus:
+            return { ...state, status: payload };
         case ActionTypes.UpdateLoading:
             return { ...state, loading: payload };
         case ActionTypes.SetState:

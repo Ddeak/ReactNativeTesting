@@ -1,9 +1,10 @@
 import Realm, { Results } from "realm";
 import { schema } from "../schema";
-import { ICustomer, IPet } from "../../types";
+import { ICustomer, IPet, IAppointment } from "../../types";
 import { CustomerModel } from "./model";
 
 const MAX_CUSTOMERS = 20;
+const MAX_CUSTOMER_APPOINTMENTS = 20;
 
 const realm = new Realm({
     schema: schema,
@@ -26,6 +27,15 @@ export const CustomerService = {
 
     findById: (id: string): ICustomer | undefined => {
         return realm.objectForPrimaryKey("Customer", id);
+    },
+
+    findByCustomer: (id: string): Results<IAppointment> => {
+        // @ts-ignore
+        return realm
+            .objects("Appointment")
+            .filtered(`customer.id = "${id}"`)
+            .sorted("date")
+            .slice(0, MAX_CUSTOMER_APPOINTMENTS);
     },
 
     save: function(customer: ICustomer) {

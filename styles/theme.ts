@@ -9,6 +9,8 @@ export const theme = {
     DELETE_COLOR: "rgb(237, 56, 132)",
     SCREEN_BACKGROUND: "rgb(56, 56, 56)",
     ACCENT_COLOR: "rgb(3, 218, 196)",
+    LATE_APPT_COLOR: "rgb(66, 134, 244)",
+    NO_SHOW_APPT_COLOR: "rgb(244, 235, 65)",
 };
 
 export const materialTheme = {

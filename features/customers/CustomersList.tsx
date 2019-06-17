@@ -42,7 +42,7 @@ export const CustomersList = ({ navigation }: IListProps) => {
 
     const defaultRowPress = (customer?: ICustomer) => {
         const id = customer ? customer.id : null;
-        navigation.push("CustomerProfile", { id });
+        navigation.push("CustomerAppointments", { id });
     };
 
     return (

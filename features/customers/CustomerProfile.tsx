@@ -34,7 +34,7 @@ export const CustomerProfile = ({ navigation }: IPropType) => {
     const onSubmit = () => {
         try {
             let errs = validate(state);
-            if (errs) {
+            if (errs.hasErrors) {
                 dispatch(Actions.setErrors(errs));
                 return;
             }

@@ -1,9 +1,10 @@
 import { useEffect, useState, useReducer } from "react";
 import { Results } from "realm";
 
-import { ICustomer } from "../../types";
+import { ICustomer, IAppointment } from "../../types";
 import { reducer, Actions, initialReducerState } from "./reducer";
 import { CustomerService } from "../../db";
+import { CustomerAppointments } from "./CustomerAppointments";
 
 export const useCustomers = (refresh: boolean, filter?: string) => {
     const [customers, setCustomers] = useState<Results<ICustomer> | never[]>(
@@ -42,4 +43,23 @@ export const useCustomer = (id: string) => {
     }, []);
 
     return [state, dispatch];
+};
+
+export const useCustomerAppointments = (id: string, refresh: boolean) => {
+    const [customerAppointments, setAppointments] = useState<
+        Results<IAppointment> | never[]
+    >([]);
+
+    if (!id) return customerAppointments;
+
+    useEffect(() => {
+        const fetchCustomers = () => {
+            const data = CustomerService.findByCustomer(id);
+            setAppointments(data);
+        };
+
+        fetchCustomers();
+    }, [refresh]);
+
+    return customerAppointments;
 };
